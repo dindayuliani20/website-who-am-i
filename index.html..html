@@ -1,0 +1,3809 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WHO AM I? — Self Discovery and Personal Growth Platform</title>
+<meta name="description" content="Discover Yourself. Understand Your Emotions. Grow Beyond Yourself.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/feather-icons"></script>
+<style>
+/* ============================================================
+   DESIGN TOKENS
+============================================================ */
+:root {
+  --bg-primary:#FBF7F2; --bg-secondary:#FFFFFF; --bg-elevated:#FFFCF7;
+  --bg-card:rgba(255,255,255,.75); --bg-card-hover:#FFFFFF;
+  --border-soft:rgba(180,160,190,.18); --border-medium:rgba(180,160,190,.3);
+  --text-primary:#3D3451; --text-secondary:#6B6178; --text-muted:#9A8FA8;
+  --accent:#E8A87C; --accent-deep:#C77F52; --accent-soft:#FFE5D4; --accent-glow:rgba(232,168,124,.3);
+  --lavender:#D4C5E8; --lavender-soft:#EDE5F5;
+  --peach:#FFD4B8; --peach-soft:#FFECE0;
+  --mint:#B8E0D2; --mint-soft:#DCF0E8;
+  --pink:#F5C6D6; --pink-soft:#FCE5EC;
+  --sky:#C5DCF0; --sky-soft:#E4EEF8;
+  --cream:#F5DCA8; --cream-soft:#FBF0DB;
+  --shadow-sm:0 2px 8px rgba(180,160,190,.08);
+  --shadow-md:0 8px 24px rgba(180,160,190,.12);
+  --shadow-lg:0 16px 48px rgba(180,160,190,.18);
+  --shadow-colored:0 12px 32px var(--accent-glow);
+  --font-display:'Fredoka','Varela Round','Comfortaa',system-ui,sans-serif;
+  --font-body:'Nunito','Segoe UI',system-ui,sans-serif;
+  --radius-sm:12px; --radius-md:20px; --radius-lg:28px; --radius-xl:36px;
+  --section-padding:clamp(3rem,8vw,6rem);
+  --container-width:1200px;
+  --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
+}
+[data-theme="dark"] {
+  --bg-primary:#1a1625; --bg-secondary:#231e30; --bg-elevated:#2a2438;
+  --bg-card:rgba(255,255,255,.05); --bg-card-hover:rgba(255,255,255,.08);
+  --border-soft:rgba(255,255,255,.1); --border-medium:rgba(255,255,255,.18);
+  --text-primary:#F5EFF8; --text-secondary:#B8AFC5; --text-muted:#7A7088;
+  --accent:#E8A87C; --accent-deep:#E8A87C; --accent-soft:rgba(232,168,124,.15); --accent-glow:rgba(232,168,124,.4);
+  --shadow-sm:0 2px 8px rgba(0,0,0,.2); --shadow-md:0 8px 24px rgba(0,0,0,.3); --shadow-lg:0 16px 48px rgba(0,0,0,.4);
+  --lavender-soft:rgba(212,197,232,.12); --peach-soft:rgba(255,212,184,.12);
+  --mint-soft:rgba(184,224,210,.12); --pink-soft:rgba(245,198,214,.12);
+  --sky-soft:rgba(197,220,240,.12); --cream-soft:rgba(245,220,168,.12);
+}
+
+/* ============================================================
+   RESET & BASE
+============================================================ */
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+body {
+  font-family:var(--font-body); background:var(--bg-primary); color:var(--text-primary);
+  line-height:1.7; overflow-x:hidden; font-weight:500;
+  transition:background .4s, color .4s;
+  min-height:100vh;
+}
+a { color:inherit; text-decoration:none; }
+ul,ol { list-style:none; }
+button { font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+input,textarea,select { font-family:inherit; }
+img { max-width:100%; display:block; }
+h1,h2,h3,h4,h5,h6 {
+  font-family:var(--font-display); font-weight:600; line-height:1.25; letter-spacing:-.01em;
+}
+.container { width:100%; max-width:var(--container-width); margin:0 auto; padding:0 1.5rem; }
+
+/* ============================================================
+   SCROLL PROGRESS
+============================================================ */
+.scroll-progress {
+  position:fixed; top:0; left:0; height:3px; width:0%;
+  background:linear-gradient(90deg,var(--lavender),var(--pink),var(--peach),var(--cream));
+  z-index:200; transition:width .1s linear;
+}
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+.navbar {
+  position:fixed; top:1rem; left:50%; transform:translateX(-50%);
+  width:calc(100% - 2rem); max-width:var(--container-width); z-index:100;
+  padding:.85rem 1.5rem; display:flex; justify-content:space-between; align-items:center;
+  background:rgba(255,252,247,.9); backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid var(--border-soft); border-radius:100px;
+  transition:box-shadow .3s, background .3s;
+  box-shadow:var(--shadow-sm);
+}
+[data-theme="dark"] .navbar { background:rgba(35,30,48,.9); }
+.navbar.scrolled { box-shadow:var(--shadow-md); }
+.nav-logo {
+  font-family:var(--font-display); font-weight:700; font-size:1.1rem;
+  display:flex; align-items:center; gap:.5rem; flex-shrink:0;
+}
+.nav-logo em { font-style:normal; color:var(--accent-deep); }
+.nav-logo-icon {
+  width:32px; height:32px; border-radius:50%;
+  background:linear-gradient(135deg,var(--lavender),var(--pink));
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 12px rgba(212,197,232,.4); flex-shrink:0;
+}
+.nav-logo-icon svg { width:16px; height:16px; color:var(--text-primary); }
+.nav-links { display:flex; gap:.25rem; align-items:center; }
+.nav-links a {
+  font-size:.82rem; font-weight:600; color:var(--text-secondary);
+  transition:color .2s, background .2s;
+  position:relative; padding:.4rem .7rem; border-radius:100px;
+  white-space:nowrap;
+}
+.nav-links a:hover { color:var(--text-primary); background:var(--lavender-soft); }
+.nav-links a.active { color:var(--accent-deep); background:var(--accent-soft); }
+.nav-actions { display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
+.theme-toggle, .mobile-menu-btn {
+  width:38px; height:38px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--lavender-soft); border:1px solid var(--border-soft);
+  transition:transform .2s;
+}
+.theme-toggle:hover, .mobile-menu-btn:hover { transform:scale(1.06); }
+.theme-toggle svg, .mobile-menu-btn svg { width:18px; height:18px; }
+.mobile-menu-btn { display:none; }
+
+.mobile-menu {
+  position:fixed; top:5.5rem; left:1rem; right:1rem; z-index:99;
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1rem;
+  display:flex; flex-direction:column; gap:.25rem;
+  opacity:0; transform:translateY(-10px); pointer-events:none;
+  transition:opacity .3s, transform .3s;
+  box-shadow:var(--shadow-lg);
+  max-height:calc(100vh - 7rem); overflow-y:auto;
+}
+.mobile-menu.open { opacity:1; transform:translateY(0); pointer-events:auto; }
+.mobile-menu a {
+  padding:.85rem 1rem; border-radius:var(--radius-sm);
+  font-weight:600; font-size:.95rem; transition:background .2s;
+  display:flex; align-items:center; gap:.6rem;
+}
+.mobile-menu a:hover, .mobile-menu a.active { background:var(--accent-soft); color:var(--accent-deep); }
+.mobile-menu a svg { width:16px; height:16px; opacity:.7; }
+
+/* ============================================================
+   PAGES
+============================================================ */
+main { min-height:100vh; padding-top:0; }
+.page { display:none; animation:fadeInPage .4s var(--ease-out-expo); }
+.page.active { display:block; }
+@keyframes fadeInPage { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);} }
+
+.page-header {
+  padding:clamp(7rem,14vw,10rem) 0 clamp(2rem,4vw,3rem);
+  text-align:center;
+  background:radial-gradient(ellipse at 30% 20%, var(--lavender-soft) 0%, transparent 50%),
+             radial-gradient(ellipse at 70% 30%, var(--peach-soft) 0%, transparent 50%),
+             var(--bg-primary);
+}
+[data-theme="dark"] .page-header {
+  background:radial-gradient(ellipse at 30% 20%, rgba(212,197,232,.1) 0%, transparent 50%),
+             radial-gradient(ellipse at 70% 30%, rgba(255,212,184,.1) 0%, transparent 50%),
+             var(--bg-primary);
+}
+.page-header .badge {
+  display:inline-flex; align-items:center; gap:.4rem;
+  padding:.4rem 1rem; background:var(--bg-secondary);
+  border:1px solid var(--border-soft); border-radius:100px;
+  font-size:.72rem; font-weight:700; color:var(--text-secondary);
+  letter-spacing:.05em; text-transform:uppercase; margin-bottom:1.25rem;
+  font-family:var(--font-display); box-shadow:var(--shadow-sm);
+}
+.page-header .badge svg { width:12px; height:12px; color:var(--accent-deep); }
+.page-title {
+  font-size:clamp(2.2rem,5vw,3.6rem); font-weight:700;
+  letter-spacing:-.02em; line-height:1.15; margin-bottom:.75rem;
+}
+.page-subtitle {
+  font-size:clamp(1rem,1.8vw,1.15rem); color:var(--accent-deep);
+  font-weight:600; font-family:var(--font-display);
+  font-style:italic; margin-bottom:1.25rem;
+}
+.page-desc {
+  max-width:640px; margin:0 auto; color:var(--text-secondary);
+  font-size:.98rem; line-height:1.75;
+}
+
+.section { padding:var(--section-padding) 0; }
+.section-alt { background:var(--bg-secondary); }
+.section-header { text-align:center; max-width:680px; margin:0 auto 2.5rem; }
+.section-label {
+  display:inline-flex; align-items:center; gap:.4rem;
+  font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--accent-deep); margin-bottom:.75rem;
+  padding:.32rem .9rem; background:var(--accent-soft); border-radius:100px;
+  font-family:var(--font-display);
+}
+.section-label svg { width:11px; height:11px; }
+.section-title { font-size:clamp(1.6rem,3.2vw,2.3rem); font-weight:600; margin-bottom:.75rem; line-height:1.2; }
+.section-desc { color:var(--text-secondary); font-size:.95rem; line-height:1.7; }
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  padding:.85rem 1.75rem; border-radius:100px;
+  font-weight:700; font-size:.92rem; font-family:var(--font-display);
+  transition:all .3s var(--ease-out-expo); border:1px solid transparent;
+  cursor:pointer; letter-spacing:.01em;
+}
+.btn-primary { background:var(--accent); color:#fff; box-shadow:var(--shadow-colored); }
+.btn-primary:hover { transform:translateY(-3px); box-shadow:0 16px 40px var(--accent-glow); }
+.btn-secondary { background:var(--bg-secondary); border-color:var(--border-medium); color:var(--text-primary); box-shadow:var(--shadow-sm); }
+.btn-secondary:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.btn-ghost { background:transparent; color:var(--text-secondary); padding:.5rem 1rem; font-size:.85rem; }
+.btn-ghost:hover { background:var(--lavender-soft); color:var(--text-primary); }
+.btn-danger { background:#E8A8A8; color:#fff; }
+.btn-danger:hover { background:#D99090; transform:translateY(-2px); }
+.btn-sm { padding:.55rem 1.2rem; font-size:.82rem; }
+.btn svg { width:16px; height:16px; }
+.btn:disabled { opacity:.5; cursor:not-allowed; transform:none !important; }
+
+/* ============================================================
+   CARDS
+============================================================ */
+.card {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1.75rem;
+  box-shadow:var(--shadow-sm); transition:all .3s var(--ease-out-expo);
+}
+.card:hover { box-shadow:var(--shadow-md); }
+.card-tinted {
+  background:color-mix(in srgb, var(--card-accent, var(--lavender)) 22%, white);
+  border-color:color-mix(in srgb, var(--card-accent, var(--lavender)) 35%, transparent);
+}
+[data-theme="dark"] .card-tinted {
+  background:color-mix(in srgb, var(--card-accent, var(--lavender)) 10%, var(--bg-secondary));
+  border-color:color-mix(in srgb, var(--card-accent, var(--lavender)) 25%, transparent);
+}
+.card-icon-wrap {
+  width:52px; height:52px; border-radius:var(--radius-md);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  background:var(--accent-soft); color:var(--accent-deep); margin-bottom:1rem;
+}
+.card-icon-wrap svg { width:24px; height:24px; }
+.card h3 { font-size:1.15rem; font-weight:600; margin-bottom:.5rem; }
+.card p { color:var(--text-secondary); font-size:.9rem; line-height:1.7; }
+
+/* ============================================================
+   FORMS
+============================================================ */
+.form-group { margin-bottom:1.15rem; }
+.form-label {
+  display:block; font-family:var(--font-display); font-weight:600;
+  font-size:.85rem; color:var(--text-primary); margin-bottom:.4rem;
+}
+.form-label .hint { font-weight:500; color:var(--text-muted); font-size:.75rem; font-family:var(--font-body); margin-left:.35rem; }
+.form-input, .form-select, .form-textarea {
+  width:100%; padding:.8rem 1rem; border-radius:var(--radius-sm);
+  background:var(--bg-elevated); border:1px solid var(--border-medium);
+  color:var(--text-primary); font-size:.92rem;
+  transition:border-color .2s, box-shadow .2s; font-weight:500;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow);
+}
+.form-textarea { resize:vertical; min-height:100px; line-height:1.65; }
+.form-select { cursor:pointer; }
+::placeholder { color:var(--text-muted); font-weight:500; }
+
+/* ============================================================
+   HOME PAGE
+============================================================ */
+.hero-home {
+  min-height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; padding:clamp(7rem,12vw,10rem) 0 4rem;
+  position:relative; overflow:hidden;
+  background:radial-gradient(ellipse at 20% 30%, var(--lavender-soft) 0%, transparent 50%),
+             radial-gradient(ellipse at 80% 20%, var(--peach-soft) 0%, transparent 50%),
+             radial-gradient(ellipse at 60% 80%, var(--mint-soft) 0%, transparent 50%),
+             var(--bg-primary);
+}
+[data-theme="dark"] .hero-home {
+  background:radial-gradient(ellipse at 20% 30%, rgba(212,197,232,.15) 0%, transparent 50%),
+             radial-gradient(ellipse at 80% 20%, rgba(255,212,184,.12) 0%, transparent 50%),
+             radial-gradient(ellipse at 60% 80%, rgba(184,224,210,.12) 0%, transparent 50%),
+             var(--bg-primary);
+}
+.hero-home::before, .hero-home::after {
+  content:''; position:absolute; border-radius:50%;
+  filter:blur(80px); opacity:.5; pointer-events:none;
+  animation:float 14s ease-in-out infinite;
+}
+.hero-home::before { width:420px; height:420px; background:var(--lavender); top:15%; left:-5%; }
+.hero-home::after { width:360px; height:360px; background:var(--peach); bottom:10%; right:-3%; animation-delay:-7s; }
+@keyframes float { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(30px,-40px) scale(1.08);} }
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:.5rem;
+  padding:.5rem 1.1rem; background:var(--bg-secondary);
+  border:1px solid var(--border-soft); border-radius:100px;
+  font-size:.72rem; font-weight:700; color:var(--text-secondary);
+  letter-spacing:.05em; text-transform:uppercase; margin-bottom:1.75rem;
+  box-shadow:var(--shadow-sm); font-family:var(--font-display);
+}
+.hero-badge svg { width:13px; height:13px; color:var(--accent-deep); }
+.hero-badge em { color:var(--accent-deep); font-style:normal; }
+.hero-title {
+  font-size:clamp(2.5rem,7vw,4.8rem); font-weight:700; letter-spacing:-.02em;
+  line-height:1.08; margin-bottom:1.25rem; max-width:900px;
+}
+.hero-title .highlight { color:var(--accent-deep); position:relative; display:inline-block; }
+.hero-title .highlight::after {
+  content:''; position:absolute; bottom:.05em; left:0; width:100%; height:.2em;
+  background:linear-gradient(90deg,var(--pink),var(--peach));
+  opacity:.6; z-index:-1; transform:skewX(-12deg); border-radius:4px;
+}
+.hero-tagline {
+  font-family:var(--font-display); font-weight:600;
+  font-size:clamp(1rem,2vw,1.25rem); color:var(--accent-deep);
+  margin-bottom:1rem; letter-spacing:.01em;
+  display:inline-flex; align-items:center; gap:.6rem;
+  padding:.5rem 1.25rem; background:var(--accent-soft);
+  border-radius:100px;
+}
+.hero-tagline svg { width:14px; height:14px; }
+.hero-subtitle {
+  font-size:clamp(.98rem,1.8vw,1.15rem); color:var(--text-secondary);
+  max-width:640px; margin:0 auto 2.25rem; line-height:1.75;
+}
+.hero-actions { display:flex; gap:.85rem; flex-wrap:wrap; justify-content:center; }
+
+/* Feature cards on home */
+.feature-grid {
+  display:grid; grid-template-columns:repeat(4, 1fr);
+  gap:1.1rem; margin-top:2rem;
+}
+.feature-card {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1.5rem 1.35rem;
+  display:flex; flex-direction:column; gap:.6rem;
+  cursor:pointer; transition:all .35s var(--ease-out-expo);
+  box-shadow:var(--shadow-sm); position:relative; overflow:hidden;
+  text-align:left;
+}
+.feature-card:hover { transform:translateY(-5px); box-shadow:var(--shadow-md); border-color:var(--accent); }
+.feature-card.featured { grid-column:span 2; background:linear-gradient(135deg,var(--lavender-soft),var(--peach-soft)); border-color:var(--lavender); }
+[data-theme="dark"] .feature-card.featured { background:linear-gradient(135deg,rgba(212,197,232,.12),rgba(255,212,184,.12)); }
+.feature-card .fc-icon {
+  width:46px; height:46px; border-radius:var(--radius-md);
+  display:flex; align-items:center; justify-content:center;
+  background:var(--accent-soft); color:var(--accent-deep); flex-shrink:0;
+}
+.feature-card:nth-child(2) .fc-icon { background:var(--peach-soft); color:#B8805C; }
+.feature-card:nth-child(3) .fc-icon { background:var(--pink-soft); color:#C77E9D; }
+.feature-card:nth-child(4) .fc-icon { background:var(--mint-soft); color:#5A9A82; }
+.feature-card:nth-child(5) .fc-icon { background:var(--sky-soft); color:#5A85AD; }
+.feature-card:nth-child(6) .fc-icon { background:var(--cream-soft); color:#B89547; }
+.feature-card:nth-child(7) .fc-icon { background:var(--lavender-soft); color:#8B72B5; }
+.feature-card .fc-icon svg { width:22px; height:22px; }
+.feature-card h3 { font-size:1.05rem; font-weight:600; }
+.feature-card p { font-size:.84rem; color:var(--text-secondary); line-height:1.6; flex-grow:1; }
+.feature-card .fc-link {
+  display:inline-flex; align-items:center; gap:.3rem;
+  font-family:var(--font-display); font-size:.8rem; font-weight:700;
+  color:var(--accent-deep); margin-top:.35rem; transition:gap .2s;
+}
+.feature-card:hover .fc-link { gap:.55rem; }
+.feature-card .fc-link svg { width:13px; height:13px; }
+
+/* ============================================================
+   KENALI DIRI
+============================================================ */
+.info-grid {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:1.1rem;
+}
+.info-card {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1.5rem;
+  box-shadow:var(--shadow-sm); transition:transform .3s;
+}
+.info-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); }
+.info-card .ic-icon {
+  width:44px; height:44px; border-radius:var(--radius-md);
+  display:flex; align-items:center; justify-content:center;
+  background:var(--lavender-soft); color:#8B72B5; margin-bottom:.85rem;
+}
+.info-card:nth-child(2) .ic-icon { background:var(--peach-soft); color:#B8805C; }
+.info-card:nth-child(3) .ic-icon { background:var(--mint-soft); color:#5A9A82; }
+.info-card:nth-child(4) .ic-icon { background:var(--pink-soft); color:#C77E9D; }
+.info-card .ic-icon svg { width:20px; height:20px; }
+.info-card h4 { font-family:var(--font-display); font-size:1rem; font-weight:600; margin-bottom:.35rem; }
+.info-card p { font-size:.85rem; color:var(--text-secondary); line-height:1.65; }
+
+/* Reflection list */
+.reflection-item {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-md); padding:1.25rem; margin-bottom:.85rem;
+  box-shadow:var(--shadow-sm); transition:box-shadow .2s;
+}
+.reflection-item:hover { box-shadow:var(--shadow-md); }
+.reflection-q { font-family:var(--font-display); font-weight:600; font-size:.95rem; color:var(--text-primary); margin-bottom:.5rem; display:flex; align-items:flex-start; gap:.5rem; }
+.reflection-q .rq-num {
+  width:26px; height:26px; border-radius:50%; background:var(--accent-soft);
+  color:var(--accent-deep); font-size:.75rem;
+  display:inline-flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-weight:700;
+}
+.reflection-input {
+  width:100%; padding:.7rem .9rem; border-radius:var(--radius-sm);
+  background:var(--bg-elevated); border:1px solid var(--border-medium);
+  color:var(--text-primary); font-size:.88rem;
+  transition:border-color .2s; font-weight:500;
+  min-height:70px; resize:vertical; line-height:1.6;
+}
+.reflection-input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+.reflection-saved {
+  font-size:.78rem; color:var(--mint); font-weight:600;
+  margin-top:.4rem; display:flex; align-items:center; gap:.3rem;
+}
+.reflection-saved svg { width:12px; height:12px; }
+
+/* Quiz interface */
+.quiz-card {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow:var(--shadow-md); max-width:640px; margin:0 auto;
+}
+.quiz-progress { height:8px; background:var(--lavender-soft); border-radius:100px; overflow:hidden; margin-bottom:1rem; }
+.quiz-progress-bar { height:100%; background:linear-gradient(90deg,var(--lavender),var(--pink)); border-radius:100px; transition:width .4s var(--ease-out-expo); }
+.quiz-counter { font-family:var(--font-display); font-size:.82rem; color:var(--text-muted); margin-bottom:.75rem; font-weight:600; }
+.quiz-q { font-size:1.15rem; font-weight:600; margin-bottom:1.5rem; line-height:1.5; font-family:var(--font-display); }
+.quiz-options { display:flex; flex-direction:column; gap:.7rem; }
+.quiz-option {
+  text-align:left; padding:1rem 1.25rem; border-radius:var(--radius-sm);
+  background:var(--lavender-soft); border:1.5px solid transparent;
+  font-size:.9rem; line-height:1.55; transition:all .2s; font-weight:500;
+}
+.quiz-option:hover { background:var(--peach-soft); border-color:var(--accent); transform:translateX(4px); }
+
+.quiz-result-hero {
+  text-align:center; padding:1.5rem 0;
+}
+.quiz-result-emoji { font-size:4rem; margin-bottom:.75rem; line-height:1; }
+.quiz-result-title { font-family:var(--font-display); font-size:1.75rem; font-weight:700; margin-bottom:.75rem; }
+.quiz-result-desc { font-size:.95rem; color:var(--text-secondary); line-height:1.75; margin-bottom:1.5rem; max-width:480px; margin-left:auto; margin-right:auto; }
+.result-section { margin-top:1.5rem; text-align:left; }
+.result-section h4 {
+  font-family:var(--font-display); font-size:.85rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.08em; color:var(--accent-deep);
+  margin-bottom:.65rem; display:flex; align-items:center; gap:.4rem;
+}
+.result-section h4 svg { width:14px; height:14px; }
+.result-list li {
+  font-size:.9rem; padding-left:1.5rem; position:relative;
+  color:var(--text-secondary); margin-bottom:.5rem; line-height:1.6;
+}
+.result-list li::before {
+  content:''; position:absolute; left:.25rem; top:.55rem;
+  width:6px; height:6px; border-radius:50%; background:var(--accent);
+}
+.quiz-disclaimer {
+  font-size:.8rem; color:var(--text-muted); font-style:italic;
+  padding:1rem; background:var(--cream-soft); border-radius:var(--radius-sm);
+  border-left:3px solid var(--cream); margin-top:1.5rem; line-height:1.6;
+}
+
+/* ============================================================
+   RUANG EMOSI
+============================================================ */
+.mood-picker-grid {
+  display:grid; grid-template-columns:repeat(5, 1fr);
+  gap:.6rem; margin-bottom:1.5rem;
+}
+@media (max-width:640px) {
+  .mood-picker-grid { grid-template-columns:repeat(3, 1fr); }
+}
+.mood-btn {
+  display:flex; flex-direction:column; align-items:center; gap:.35rem;
+  padding:.9rem .5rem; border-radius:var(--radius-md);
+  background:var(--bg-elevated); border:2px solid transparent;
+  transition:all .25s var(--ease-out-expo); cursor:pointer;
+}
+.mood-btn:hover { transform:translateY(-3px); border-color:var(--mood-color); }
+.mood-btn.active {
+  border-color:var(--mood-color);
+  background:color-mix(in srgb, var(--mood-color) 25%, white);
+  box-shadow:0 4px 16px color-mix(in srgb, var(--mood-color) 40%, transparent);
+}
+[data-theme="dark"] .mood-btn.active { background:color-mix(in srgb, var(--mood-color) 20%, var(--bg-secondary)); }
+.mood-btn .me { font-size:1.75rem; line-height:1; }
+.mood-btn .ml { font-family:var(--font-display); font-size:.7rem; font-weight:600; color:var(--text-secondary); }
+
+.mood-step {
+  padding:1.5rem; background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); margin-bottom:1.25rem;
+}
+.mood-step-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:26px; height:26px; border-radius:50%;
+  background:var(--accent); color:#fff; font-family:var(--font-display);
+  font-size:.78rem; font-weight:700; margin-right:.5rem;
+}
+.mood-step-title {
+  font-family:var(--font-display); font-size:1rem; font-weight:600;
+  margin-bottom:1rem; display:flex; align-items:center;
+}
+
+.mood-today-card {
+  background:linear-gradient(135deg,var(--lavender-soft),var(--peach-soft));
+  border:1px solid var(--lavender); border-radius:var(--radius-lg);
+  padding:1.5rem; margin-bottom:1.5rem;
+}
+[data-theme="dark"] .mood-today-card { background:linear-gradient(135deg,rgba(212,197,232,.12),rgba(255,212,184,.12)); border-color:rgba(212,197,232,.3); }
+.mood-today-head { display:flex; align-items:center; gap:.75rem; margin-bottom:.85rem; }
+.mood-today-emoji { font-size:2.25rem; }
+.mood-today-label { font-family:var(--font-display); font-weight:700; font-size:1.15rem; }
+.mood-today-date { font-size:.8rem; color:var(--text-muted); font-weight:600; }
+.mood-today-reason {
+  font-size:.9rem; color:var(--text-secondary); line-height:1.7;
+  padding:.85rem 1rem; background:var(--bg-secondary); border-radius:var(--radius-sm);
+  margin-bottom:.85rem;
+}
+.mood-today-actions { display:flex; gap:.5rem; flex-wrap:wrap; }
+
+/* Mood entries list */
+.mood-entries-list { display:flex; flex-direction:column; gap:.75rem; }
+.mood-entry {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-md); padding:1rem 1.15rem;
+  display:flex; align-items:flex-start; gap:.85rem;
+  transition:box-shadow .2s;
+}
+.mood-entry:hover { box-shadow:var(--shadow-md); }
+.mood-entry-emoji { font-size:1.75rem; line-height:1; flex-shrink:0; }
+.mood-entry-body { flex:1; min-width:0; }
+.mood-entry-head { display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.25rem; flex-wrap:wrap; }
+.mood-entry-name { font-family:var(--font-display); font-weight:700; font-size:.95rem; }
+.mood-entry-time { font-size:.72rem; color:var(--text-muted); font-weight:600; }
+.mood-entry-reason { font-size:.85rem; color:var(--text-secondary); line-height:1.6; white-space:pre-wrap; word-break:break-word; }
+.mood-entry-actions { display:flex; gap:.25rem; margin-top:.5rem; }
+.mood-entry-actions button {
+  font-size:.75rem; color:var(--text-muted); padding:.3rem .6rem;
+  border-radius:6px; transition:all .2s; font-weight:600;
+  display:flex; align-items:center; gap:.25rem;
+}
+.mood-entry-actions button:hover { background:var(--lavender-soft); color:var(--accent-deep); }
+.mood-entry-actions button svg { width:11px; height:11px; }
+
+/* Mood calendar */
+.mood-calendar {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1.25rem; box-shadow:var(--shadow-sm);
+}
+.calendar-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:1rem; gap:.5rem;
+}
+.calendar-month {
+  font-family:var(--font-display); font-weight:700; font-size:1rem;
+}
+.calendar-nav {
+  width:32px; height:32px; border-radius:50%;
+  background:var(--lavender-soft); border:1px solid var(--border-soft);
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .2s; flex-shrink:0;
+}
+.calendar-nav:hover { transform:scale(1.08); }
+.calendar-nav svg { width:14px; height:14px; }
+.calendar-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:.35rem; }
+.calendar-day-label {
+  font-size:.68rem; color:var(--text-muted); font-weight:700;
+  text-align:center; padding:.35rem 0; text-transform:uppercase;
+  font-family:var(--font-display);
+}
+.calendar-day {
+  aspect-ratio:1; border-radius:var(--radius-sm);
+  display:flex; align-items:center; justify-content:center;
+  font-size:.78rem; font-weight:600; color:var(--text-muted);
+  position:relative; cursor:pointer;
+  transition:all .2s; background:var(--bg-elevated);
+}
+.calendar-day.empty { background:transparent; cursor:default; }
+.calendar-day.has-mood {
+  color:#fff; font-weight:700; cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.calendar-day.has-mood:hover { transform:scale(1.08); z-index:1; }
+.calendar-day.today { outline:2px solid var(--accent); outline-offset:1px; }
+.calendar-day.today::after {
+  content:''; position:absolute; bottom:3px; width:4px; height:4px;
+  border-radius:50%; background:var(--accent);
+}
+.calendar-day.has-mood.today::after { background:#fff; }
+
+/* Mood chart */
+.mood-chart-wrap {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1.25rem; box-shadow:var(--shadow-sm);
+}
+.mood-chart {
+  display:flex; align-items:flex-end; gap:4px;
+  height:140px; padding:0 0 1.5rem; position:relative;
+}
+.mood-bar-wrap {
+  flex:1; height:100%; display:flex; flex-direction:column;
+  justify-content:flex-end; align-items:center; position:relative;
+  min-width:8px;
+}
+.mood-bar {
+  width:100%; border-radius:4px 4px 0 0; min-height:3px;
+  transition:height .4s var(--ease-out-expo);
+}
+.mood-bar-day {
+  position:absolute; bottom:-1.2rem;
+  font-size:.6rem; color:var(--text-muted); font-weight:600;
+}
+
+/* Emotion guide */
+.guide-grid {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:1rem;
+}
+.guide-card {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1.35rem;
+  box-shadow:var(--shadow-sm); transition:transform .3s;
+}
+.guide-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); }
+.guide-card .gc-icon {
+  width:42px; height:42px; border-radius:var(--radius-md);
+  display:flex; align-items:center; justify-content:center;
+  background:var(--mint-soft); color:#5A9A82; margin-bottom:.75rem;
+}
+.guide-card:nth-child(2) .gc-icon { background:var(--sky-soft); color:#5A85AD; }
+.guide-card:nth-child(3) .gc-icon { background:var(--pink-soft); color:#C77E9D; }
+.guide-card:nth-child(4) .gc-icon { background:var(--peach-soft); color:#B8805C; }
+.guide-card:nth-child(5) .gc-icon { background:var(--lavender-soft); color:#8B72B5; }
+.guide-card .gc-icon svg { width:20px; height:20px; }
+.guide-card h4 { font-family:var(--font-display); font-weight:600; font-size:.95rem; margin-bottom:.35rem; }
+.guide-card p { font-size:.83rem; color:var(--text-secondary); line-height:1.65; }
+
+/* ============================================================
+   JURNAL
+============================================================ */
+.journal-tabs {
+  display:flex; gap:.35rem; padding:.35rem;
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:100px; margin-bottom:1.5rem;
+  width:fit-content; box-shadow:var(--shadow-sm);
+  max-width:100%; overflow-x:auto;
+}
+.journal-tab {
+  padding:.55rem 1.15rem; border-radius:100px;
+  font-family:var(--font-display); font-size:.82rem; font-weight:600;
+  color:var(--text-secondary); transition:all .2s; white-space:nowrap;
+  display:flex; align-items:center; gap:.35rem;
+}
+.journal-tab svg { width:14px; height:14px; }
+.journal-tab.active { background:var(--accent); color:#fff; box-shadow:0 4px 12px var(--accent-glow); }
+.journal-tab:not(.active):hover { background:var(--lavender-soft); }
+
+.journal-list { display:flex; flex-direction:column; gap:.85rem; }
+.journal-card {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-md); padding:1.25rem;
+  box-shadow:var(--shadow-sm); transition:all .2s;
+}
+.journal-card:hover { box-shadow:var(--shadow-md); }
+.journal-card-head { display:flex; justify-content:space-between; align-items:flex-start; gap:.75rem; margin-bottom:.35rem; }
+.journal-card h4 { font-size:.98rem; font-weight:600; font-family:var(--font-display); line-height:1.4; flex:1; }
+.journal-card-date { font-size:.72rem; color:var(--text-muted); font-weight:600; margin-bottom:.6rem; display:flex; align-items:center; gap:.4rem; }
+.journal-card-date svg { width:12px; height:12px; }
+.journal-card-text { font-size:.88rem; color:var(--text-secondary); line-height:1.7; white-space:pre-wrap; word-break:break-word; }
+.journal-card-actions { display:flex; gap:.4rem; margin-top:.75rem; }
+.journal-card-actions button {
+  font-size:.75rem; padding:.35rem .75rem; border-radius:100px;
+  background:var(--lavender-soft); color:var(--text-secondary);
+  font-weight:600; transition:all .2s; display:flex; align-items:center; gap:.3rem;
+}
+.journal-card-actions button:hover { background:var(--peach-soft); color:var(--accent-deep); }
+.journal-card-actions button.del:hover { background:rgba(232,168,168,.3); color:#B04545; }
+.journal-card-actions button svg { width:12px; height:12px; }
+
+.prompt-chips {
+  display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:.85rem;
+}
+.prompt-chip {
+  font-size:.78rem; padding:.4rem .85rem; border-radius:100px;
+  background:var(--lavender-soft); color:var(--text-secondary);
+  border:1px solid transparent; transition:all .2s; cursor:pointer;
+  font-weight:600; text-align:left;
+}
+.prompt-chip:hover { background:var(--peach-soft); color:var(--accent-deep); border-color:var(--peach); }
+
+.gratitude-item {
+  display:flex; align-items:flex-start; gap:.6rem; margin-bottom:.6rem;
+}
+.gratitude-num {
+  width:28px; height:28px; border-radius:50%;
+  background:var(--pink-soft); color:#C77E9D;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:700; font-size:.8rem;
+  flex-shrink:0; margin-top:.35rem;
+}
+.gratitude-item input {
+  flex:1; padding:.65rem .9rem; border-radius:var(--radius-sm);
+  background:var(--bg-elevated); border:1px solid var(--border-medium);
+  color:var(--text-primary); font-size:.88rem; font-weight:500;
+}
+.gratitude-item input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+
+/* ============================================================
+   TUMBUH
+============================================================ */
+.stats-grid {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+  gap:1rem; margin-bottom:2rem;
+}
+.stat-card {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1.25rem; text-align:center;
+  box-shadow:var(--shadow-sm);
+}
+.stat-card .sc-icon {
+  width:44px; height:44px; border-radius:50%;
+  background:var(--lavender-soft); color:#8B72B5;
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto .65rem;
+}
+.stat-card:nth-child(2) .sc-icon { background:var(--mint-soft); color:#5A9A82; }
+.stat-card:nth-child(3) .sc-icon { background:var(--peach-soft); color:#B8805C; }
+.stat-card:nth-child(4) .sc-icon { background:var(--pink-soft); color:#C77E9D; }
+.stat-card .sc-icon svg { width:20px; height:20px; }
+.stat-card .sc-value {
+  font-family:var(--font-display); font-size:1.75rem; font-weight:700;
+  line-height:1; color:var(--text-primary);
+}
+.stat-card .sc-label {
+  font-size:.75rem; color:var(--text-muted); font-weight:600;
+  text-transform:uppercase; letter-spacing:.05em; margin-top:.35rem;
+}
+
+.goal-item {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-md); padding:1rem 1.15rem;
+  display:flex; align-items:flex-start; gap:.75rem;
+  transition:all .2s; box-shadow:var(--shadow-sm);
+}
+.goal-item:hover { box-shadow:var(--shadow-md); }
+.goal-item.done { opacity:.7; }
+.goal-item input[type="checkbox"] {
+  width:20px; height:20px; accent-color:var(--accent);
+  cursor:pointer; flex-shrink:0; margin-top:.15rem;
+}
+.goal-body { flex:1; min-width:0; }
+.goal-body h4 {
+  font-family:var(--font-display); font-size:.95rem; font-weight:600;
+  line-height:1.4; margin-bottom:.25rem;
+}
+.goal-item.done .goal-body h4 { text-decoration:line-through; color:var(--text-muted); }
+.goal-meta {
+  display:flex; gap:.4rem; flex-wrap:wrap; margin-bottom:.35rem;
+  font-size:.72rem; color:var(--text-muted); font-weight:600;
+}
+.goal-badge {
+  padding:.15rem .55rem; border-radius:100px;
+  background:var(--lavender-soft); color:#8B72B5;
+}
+.goal-body p { font-size:.83rem; color:var(--text-secondary); line-height:1.55; }
+.goal-actions { display:flex; gap:.3rem; flex-shrink:0; }
+.goal-actions button {
+  width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s; color:var(--text-muted);
+}
+.goal-actions button:hover { background:var(--lavender-soft); color:var(--accent-deep); }
+.goal-actions button.del:hover { background:rgba(232,168,168,.3); color:#B04545; }
+.goal-actions button svg { width:13px; height:13px; }
+
+.challenge-section { margin-bottom:2rem; }
+.challenge-cat-title {
+  font-family:var(--font-display); font-weight:700; font-size:.95rem;
+  margin-bottom:.75rem; display:flex; align-items:center; gap:.5rem;
+  color:var(--text-primary);
+}
+.challenge-cat-title svg { width:16px; height:16px; color:var(--accent-deep); }
+.challenge-list { display:flex; flex-direction:column; gap:.5rem; }
+.challenge-item {
+  display:flex; align-items:center; gap:.75rem;
+  padding:.75rem 1rem; background:var(--bg-secondary);
+  border:1px solid var(--border-soft); border-radius:var(--radius-sm);
+  transition:all .2s;
+}
+.challenge-item:hover { border-color:var(--accent); }
+.challenge-item input[type="checkbox"] {
+  width:18px; height:18px; accent-color:var(--accent);
+  cursor:pointer; flex-shrink:0;
+}
+.challenge-item label {
+  flex:1; font-size:.85rem; font-weight:500; cursor:pointer;
+  line-height:1.5;
+}
+.challenge-item.done label { text-decoration:line-through; color:var(--text-muted); }
+.challenge-item.done { background:var(--mint-soft); border-color:var(--mint); }
+
+.progress-bar-lg {
+  height:12px; background:var(--lavender-soft); border-radius:100px;
+  overflow:hidden; margin:.5rem 0;
+}
+.progress-bar-lg-fill {
+  height:100%; background:linear-gradient(90deg,var(--mint),var(--sky));
+  border-radius:100px; transition:width .5s var(--ease-out-expo);
+}
+
+/* ============================================================
+   PLAY & LEARN
+============================================================ */
+.game-tabs {
+  display:flex; gap:.4rem; margin-bottom:1.5rem;
+  padding:.35rem; background:var(--bg-secondary);
+  border:1px solid var(--border-soft); border-radius:100px;
+  width:fit-content; box-shadow:var(--shadow-sm);
+  max-width:100%; overflow-x:auto;
+}
+.game-tab {
+  padding:.6rem 1.1rem; border-radius:100px;
+  font-family:var(--font-display); font-size:.82rem; font-weight:600;
+  color:var(--text-secondary); transition:all .2s; white-space:nowrap;
+  display:flex; align-items:center; gap:.35rem;
+}
+.game-tab svg { width:14px; height:14px; }
+.game-tab.active { background:var(--accent); color:#fff; box-shadow:0 4px 12px var(--accent-glow); }
+.game-tab:not(.active):hover { background:var(--lavender-soft); }
+
+.game-panel { display:none; }
+.game-panel.active { display:block; }
+
+/* Memory game */
+.memory-diff-select { display:grid; grid-template-columns:repeat(3, 1fr); gap:.85rem; margin-bottom:1.5rem; }
+@media (max-width:640px) { .memory-diff-select { grid-template-columns:1fr; } }
+.memory-diff-card {
+  padding:1.15rem; border-radius:var(--radius-md);
+  background:var(--bg-secondary); border:2px solid var(--border-soft);
+  cursor:pointer; transition:all .25s var(--ease-out-expo);
+  text-align:left; display:flex; flex-direction:column; gap:.35rem;
+  box-shadow:var(--shadow-sm);
+}
+.memory-diff-card:nth-child(1) { border-color:var(--mint); background:var(--mint-soft); }
+.memory-diff-card:nth-child(2) { border-color:var(--sky); background:var(--sky-soft); }
+.memory-diff-card:nth-child(3) { border-color:var(--pink); background:var(--pink-soft); }
+.memory-diff-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.memory-diff-card .md-title { font-family:var(--font-display); font-weight:700; font-size:1rem; }
+.memory-diff-card .md-meta { font-size:.75rem; color:var(--text-muted); font-weight:600; }
+.memory-diff-card .md-best { font-size:.78rem; color:var(--accent-deep); font-weight:700; font-family:var(--font-display); margin-top:.25rem; }
+
+.memory-stats {
+  display:grid; grid-template-columns:repeat(3, 1fr); gap:.5rem;
+  margin-bottom:1rem;
+}
+.memory-stat {
+  text-align:center; padding:.65rem .25rem;
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-sm);
+}
+.memory-stat:nth-child(2) { background:var(--peach-soft); }
+.memory-stat:nth-child(3) { background:var(--mint-soft); }
+.memory-stat .ms-label {
+  font-family:var(--font-display); font-size:.65rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.06em; color:var(--text-muted);
+  margin-bottom:.15rem;
+}
+.memory-stat .ms-val {
+  font-family:var(--font-display); font-size:1.1rem; font-weight:700;
+  color:var(--text-primary); font-variant-numeric:tabular-nums;
+}
+
+.memory-grid {
+  display:grid; grid-template-columns:repeat(var(--cols,4),1fr);
+  gap:.5rem; margin-bottom:1rem; perspective:1000px;
+}
+.memory-card { aspect-ratio:1; padding:0; background:transparent; border:none; cursor:pointer; }
+.memory-card-inner {
+  position:relative; display:block; width:100%; height:100%;
+  transform-style:preserve-3d; transition:transform .4s var(--ease-out-expo);
+  border-radius:var(--radius-sm);
+}
+.memory-card.flipped .memory-card-inner,
+.memory-card.matched .memory-card-inner { transform:rotateY(180deg); }
+.memory-card-front, .memory-card-back {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  border-radius:var(--radius-sm); backface-visibility:hidden;
+  -webkit-backface-visibility:hidden; border:1px solid var(--border-soft);
+  transition:box-shadow .2s, transform .2s;
+}
+.memory-card-front {
+  background:linear-gradient(135deg,var(--lavender),var(--pink));
+  font-size:1.1rem; font-weight:700; color:#fff;
+  text-shadow:0 1px 3px rgba(0,0,0,.15);
+}
+.memory-card:hover .memory-card-front { transform:scale(1.02); box-shadow:var(--shadow-md); }
+.memory-card-back {
+  transform:rotateY(180deg); background:var(--bg-secondary);
+  border-color:var(--accent); font-size:1.5rem; font-weight:600;
+  color:var(--text-primary); text-align:center; padding:.25rem;
+  font-family:var(--font-display); line-height:1.15;
+}
+.memory-card.matched { pointer-events:none; }
+.memory-card.matched .memory-card-back { opacity:.7; box-shadow:0 0 20px var(--accent-glow); }
+
+.game-result {
+  text-align:center; padding:1.5rem;
+  background:linear-gradient(135deg,var(--lavender-soft),var(--peach-soft));
+  border-radius:var(--radius-lg); margin-top:1.5rem;
+}
+[data-theme="dark"] .game-result { background:linear-gradient(135deg,rgba(212,197,232,.12),rgba(255,212,184,.12)); }
+.game-result-emoji { font-size:3rem; margin-bottom:.5rem; animation:pop .5s var(--ease-out-expo); }
+@keyframes pop { 0%{transform:scale(0);} 70%{transform:scale(1.15);} 100%{transform:scale(1);} }
+.game-result h3 { font-family:var(--font-display); font-size:1.4rem; margin-bottom:1rem; }
+.game-result-stats {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:.5rem;
+  margin-bottom:1rem;
+}
+@media (max-width:640px) { .game-result-stats { grid-template-columns:repeat(2,1fr); } }
+.game-result-stat {
+  padding:.65rem .25rem; background:var(--bg-secondary);
+  border-radius:var(--radius-sm); border:1px solid var(--border-soft);
+}
+.game-result-stat .gv { font-family:var(--font-display); font-size:1.1rem; font-weight:700; color:var(--accent-deep); }
+.game-result-stat .gl { font-size:.65rem; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:.05em; margin-top:.15rem; }
+.game-record-msg { font-family:var(--font-display); font-weight:700; font-size:.9rem; color:var(--accent-deep); margin-bottom:1rem; }
+
+/* Emotion Quiz */
+.eq-question {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1.5rem; box-shadow:var(--shadow-sm);
+}
+.eq-situation {
+  font-size:1rem; font-weight:600; line-height:1.6; margin-bottom:1.25rem;
+  padding:1rem; background:var(--cream-soft); border-radius:var(--radius-sm);
+  border-left:3px solid var(--cream);
+}
+.eq-options { display:grid; grid-template-columns:repeat(2, 1fr); gap:.6rem; }
+@media (max-width:640px) { .eq-options { grid-template-columns:1fr; } }
+.eq-option {
+  padding:.85rem 1rem; border-radius:var(--radius-sm);
+  background:var(--lavender-soft); border:2px solid transparent;
+  font-size:.88rem; font-weight:600; text-align:left;
+  transition:all .2s; display:flex; align-items:center; gap:.5rem;
+}
+.eq-option:hover:not(:disabled) { background:var(--peach-soft); border-color:var(--accent); }
+.eq-option.correct { background:var(--mint-soft); border-color:var(--mint); color:#3D8B6E; }
+.eq-option.wrong { background:rgba(232,168,168,.25); border-color:#E8A8A8; color:#B04545; }
+.eq-option:disabled { cursor:not-allowed; }
+.eq-feedback {
+  margin-top:1rem; padding:1rem; border-radius:var(--radius-sm);
+  font-size:.88rem; line-height:1.7; color:var(--text-secondary);
+  background:var(--bg-elevated); border-left:3px solid var(--accent);
+}
+
+/* Word of Me */
+.word-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(120px, 1fr));
+  gap:.6rem; margin-bottom:1.25rem;
+}
+.word-btn {
+  padding:.85rem .75rem; border-radius:var(--radius-md);
+  background:var(--bg-secondary); border:2px solid var(--border-soft);
+  font-family:var(--font-display); font-size:.85rem; font-weight:600;
+  color:var(--text-secondary); transition:all .2s; cursor:pointer;
+}
+.word-btn:hover { transform:translateY(-2px); border-color:var(--accent); }
+.word-btn.selected {
+  background:var(--accent); color:#fff; border-color:var(--accent);
+  box-shadow:0 4px 12px var(--accent-glow);
+}
+.word-count {
+  font-family:var(--font-display); font-size:.8rem; font-weight:600;
+  color:var(--text-muted); text-align:center; margin-bottom:1rem;
+}
+.word-reflection-list { display:flex; flex-direction:column; gap:.85rem; margin-top:1.25rem; }
+.word-reflection-item {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-md); padding:1rem 1.15rem;
+}
+.word-reflection-item .wr-word {
+  font-family:var(--font-display); font-weight:700; font-size:.9rem;
+  color:var(--accent-deep); margin-bottom:.35rem;
+}
+
+/* ============================================================
+   INSIGHT
+============================================================ */
+.search-bar {
+  display:flex; gap:.5rem; max-width:520px; margin:0 auto 1.5rem;
+}
+.search-bar input {
+  flex:1; padding:.75rem 1.15rem; border-radius:100px;
+  background:var(--bg-secondary); border:1px solid var(--border-medium);
+  color:var(--text-primary); font-size:.9rem; font-weight:500;
+}
+.search-bar input:focus { outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+.search-bar .search-icon-btn {
+  width:46px; height:46px; border-radius:50%;
+  background:var(--accent); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:var(--shadow-colored); flex-shrink:0;
+}
+.search-bar .search-icon-btn svg { width:18px; height:18px; }
+
+.category-chips { display:flex; gap:.4rem; flex-wrap:wrap; justify-content:center; margin-bottom:1.5rem; }
+.cat-chip {
+  padding:.45rem .95rem; border-radius:100px;
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  font-size:.78rem; font-weight:600; color:var(--text-secondary);
+  cursor:pointer; transition:all .2s; font-family:var(--font-display);
+}
+.cat-chip:hover { border-color:var(--accent); }
+.cat-chip.active { background:var(--accent); color:#fff; border-color:var(--accent); box-shadow:0 4px 12px var(--accent-glow); }
+
+.article-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  gap:1.1rem;
+}
+.article-card {
+  background:var(--bg-secondary); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); padding:1.5rem;
+  box-shadow:var(--shadow-sm); transition:all .3s var(--ease-out-expo);
+  cursor:pointer; display:flex; flex-direction:column; gap:.6rem;
+  text-align:left; width:100%; font-family:inherit;
+}
+.article-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); border-color:var(--accent); }
+.article-card .ac-tag {
+  display:inline-block; padding:.25rem .75rem; border-radius:100px;
+  background:var(--lavender-soft); color:#8B72B5;
+  font-family:var(--font-display); font-size:.68rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.05em; align-self:flex-start;
+}
+.article-card h3 { font-size:1.05rem; font-weight:600; line-height:1.35; }
+.article-card p { font-size:.85rem; color:var(--text-secondary); line-height:1.65; flex-grow:1; }
+.article-card .ac-meta {
+  font-size:.75rem; color:var(--text-muted); font-weight:600;
+  display:flex; align-items:center; gap:.75rem; margin-top:.35rem;
+}
+.article-card .ac-meta span { display:flex; align-items:center; gap:.25rem; }
+.article-card .ac-meta svg { width:12px; height:12px; }
+
+.article-detail { max-width:760px; margin:0 auto; }
+.article-detail-header { margin-bottom:1.5rem; }
+.article-detail-tag {
+  display:inline-block; padding:.3rem .85rem; border-radius:100px;
+  background:var(--accent-soft); color:var(--accent-deep);
+  font-family:var(--font-display); font-size:.72rem; font-weight:700;
+  text-transform:uppercase; letter-spacing:.05em; margin-bottom:.85rem;
+}
+.article-detail-title {
+  font-family:var(--font-display); font-size:clamp(1.5rem,3vw,2.1rem);
+  font-weight:700; line-height:1.25; margin-bottom:.65rem;
+}
+.article-detail-meta {
+  font-size:.82rem; color:var(--text-muted); font-weight:600;
+  display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+}
+.article-detail-meta span { display:flex; align-items:center; gap:.3rem; }
+.article-detail-meta svg { width:13px; height:13px; }
+.article-detail-body {
+  font-size:.95rem; line-height:1.85; color:var(--text-secondary);
+  padding:1.5rem 0;
+}
+.article-detail-body p { margin-bottom:1rem; }
+.article-detail-body p:last-child { margin-bottom:0; }
+.article-detail-body strong { color:var(--text-primary); font-weight:700; }
+.article-reflection {
+  padding:1.25rem; background:var(--lavender-soft);
+  border-radius:var(--radius-md); border-left:3px solid var(--lavender);
+  margin-top:1rem;
+}
+.article-reflection h4 {
+  font-family:var(--font-display); font-size:.85rem; font-weight:700;
+  color:var(--accent-deep); margin-bottom:.4rem;
+  display:flex; align-items:center; gap:.35rem;
+}
+.article-reflection h4 svg { width:14px; height:14px; }
+.article-reflection p { font-size:.88rem; line-height:1.65; color:var(--text-secondary); }
+
+/* ============================================================
+   ABOUT
+============================================================ */
+.about-story {
+  max-width:820px; margin:0 auto 2.5rem; padding:2rem;
+  background:var(--lavender-soft); border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg); text-align:center;
+}
+.about-story .as-icon { font-size:2.5rem; margin-bottom:.75rem; display:block; }
+.about-story h3 { font-family:var(--font-display); font-size:1.4rem; font-weight:600; margin-bottom:.85rem; }
+.about-story p { font-size:.92rem; color:var(--text-secondary); line-height:1.8; }
+
+.credits-card {
+  background:linear-gradient(135deg,var(--lavender-soft),var(--peach-soft));
+  border:1px solid var(--lavender); border-radius:var(--radius-lg);
+  padding:2rem; margin-bottom:2.5rem;
+}
+[data-theme="dark"] .credits-card { background:linear-gradient(135deg,rgba(212,197,232,.12),rgba(255,212,184,.12)); border-color:rgba(212,197,232,.3); }
+.credits-card .cc-head {
+  display:flex; align-items:center; gap:.85rem; margin-bottom:1.25rem;
+  padding-bottom:1rem; border-bottom:1px solid var(--border-soft);
+}
+.credits-card .cc-logo {
+  width:52px; height:52px; border-radius:var(--radius-md);
+  background:var(--bg-secondary); display:flex; align-items:center; justify-content:center;
+  box-shadow:var(--shadow-sm); flex-shrink:0;
+}
+.credits-card .cc-logo svg { width:24px; height:24px; color:var(--accent-deep); }
+.credits-card .cc-title { font-family:var(--font-display); font-weight:700; font-size:1.15rem; }
+.credits-card .cc-subtitle { font-size:.78rem; color:var(--text-muted); font-weight:600; }
+.credits-list { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:.85rem; }
+.credits-item {
+  padding:.65rem .85rem; background:var(--bg-secondary);
+  border-radius:var(--radius-sm); border:1px solid var(--border-soft);
+}
+.credits-item .ci-label {
+  font-size:.68rem; text-transform:uppercase; letter-spacing:.06em;
+  color:var(--text-muted); font-weight:700; font-family:var(--font-display);
+  margin-bottom:.15rem;
+}
+.credits-item .ci-value {
+  font-size:.85rem; color:var(--text-primary); font-weight:600; line-height:1.5;
+}
+
+.vm-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:1.1rem;
+  margin-bottom:2.5rem;
+}
+@media (max-width:768px) { .vm-grid { grid-template-columns:1fr; } }
+.vm-card { padding:1.75rem; border-radius:var(--radius-lg); border:1px solid var(--border-soft); }
+.vm-card.vision { background:var(--peach-soft); }
+.vm-card.mission { background:var(--mint-soft); }
+[data-theme="dark"] .vm-card.vision { background:rgba(255,212,184,.1); }
+[data-theme="dark"] .vm-card.mission { background:rgba(184,224,210,.1); }
+.vm-card .vm-icon { font-size:1.75rem; margin-bottom:.75rem; display:block; }
+.vm-card h3 { font-family:var(--font-display); font-size:1.3rem; font-weight:600; margin-bottom:.85rem; }
+.vm-card p { font-size:.9rem; color:var(--text-secondary); line-height:1.75; }
+.mission-list { counter-reset:mission; display:flex; flex-direction:column; gap:.65rem; }
+.mission-list li {
+  counter-increment:mission; padding-left:2rem; position:relative;
+  font-size:.88rem; color:var(--text-secondary); line-height:1.65;
+}
+.mission-list li::before {
+  content:counter(mission); position:absolute; left:0; top:0;
+  width:22px; height:22px; border-radius:50%;
+  background:var(--bg-secondary); color:var(--accent-deep);
+  font-family:var(--font-display); font-weight:700; font-size:.72rem;
+  display:flex; align-items:center; justify-content:center;
+}
+
+.values-grid {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+  gap:1rem; margin-bottom:2.5rem;
+}
+.value-card {
+  padding:1.5rem 1.25rem; border-radius:var(--radius-lg);
+  border:1px solid var(--border-soft); text-align:center;
+  transition:transform .3s;
+}
+.value-card:hover { transform:translateY(-4px); }
+.value-card:nth-child(1) { background:var(--lavender-soft); }
+.value-card:nth-child(2) { background:var(--peach-soft); }
+.value-card:nth-child(3) { background:var(--mint-soft); }
+.value-card:nth-child(4) { background:var(--pink-soft); }
+[data-theme="dark"] .value-card { background:var(--bg-secondary); }
+.value-card .v-icon { font-size:2rem; margin-bottom:.5rem; display:block; }
+.value-card h4 { font-family:var(--font-display); font-size:1rem; font-weight:600; margin-bottom:.35rem; }
+.value-card p { font-size:.82rem; color:var(--text-secondary); line-height:1.6; }
+
+.team-grid {
+  display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+  gap:.85rem; margin-bottom:2.5rem;
+}
+.team-card {
+  padding:1.25rem 1rem; background:var(--bg-secondary);
+  border:1px solid var(--border-soft); border-radius:var(--radius-md);
+  text-align:center; transition:all .3s var(--ease-out-expo);
+  box-shadow:var(--shadow-sm);
+}
+.team-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); border-color:var(--lavender); }
+.team-avatar {
+  width:60px; height:60px; border-radius:50%;
+  background:linear-gradient(135deg,var(--lavender),var(--pink));
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-display); font-weight:700; font-size:1.15rem;
+  margin:0 auto .75rem;
+  box-shadow:0 4px 16px rgba(212,197,232,.4);
+}
+.team-name {
+  font-family:var(--font-display); font-weight:600; font-size:.88rem;
+  line-height:1.35; margin-bottom:.25rem;
+}
+.team-nim {
+  font-size:.72rem; color:var(--text-muted); font-weight:700;
+  letter-spacing:.02em; font-family:var(--font-display);
+}
+
+.about-closing {
+  text-align:center; padding:2.5rem 2rem;
+  background:linear-gradient(135deg,var(--lavender-soft),var(--pink-soft));
+  border-radius:var(--radius-lg);
+  border:1px solid var(--lavender);
+}
+[data-theme="dark"] .about-closing { background:linear-gradient(135deg,rgba(212,197,232,.12),rgba(245,198,214,.12)); border-color:rgba(212,197,232,.3); }
+.about-closing h3 {
+  font-family:var(--font-display); font-size:clamp(1.5rem,3vw,2.1rem);
+  font-weight:700; margin-bottom:.85rem;
+}
+.about-closing p {
+  font-size:.92rem; color:var(--text-secondary); line-height:1.75;
+  max-width:560px; margin:0 auto 1.5rem;
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.footer {
+  padding:2rem 0 1.5rem; border-top:1px solid var(--border-soft);
+  background:var(--bg-secondary); margin-top:2rem;
+}
+.footer-inner {
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:1rem;
+}
+.footer-brand {
+  font-family:var(--font-display); font-weight:700; font-size:1rem;
+  display:flex; align-items:center; gap:.5rem;
+}
+.footer-brand em { font-style:normal; color:var(--accent-deep); }
+.footer p { font-size:.78rem; color:var(--text-muted); font-weight:500; }
+
+/* ============================================================
+   TOAST
+============================================================ */
+#toast {
+  position:fixed; bottom:1.5rem; left:50%; transform:translate(-50%,100px);
+  background:var(--bg-secondary); border:2px solid var(--accent);
+  color:var(--text-primary); padding:.85rem 1.5rem;
+  border-radius:100px; font-size:.88rem; font-weight:700;
+  z-index:400; opacity:0; transition:all .4s var(--ease-out-expo);
+  box-shadow:var(--shadow-lg); pointer-events:none; white-space:nowrap;
+  font-family:var(--font-display); max-width:calc(100vw - 2rem);
+}
+#toast.show { opacity:1; transform:translate(-50%,0); }
+
+/* ============================================================
+   EMPTY STATES
+============================================================ */
+.empty-state {
+  text-align:center; padding:2.5rem 1rem;
+  color:var(--text-muted);
+}
+.empty-state .es-icon { font-size:2.5rem; margin-bottom:.65rem; opacity:.6; display:block; }
+.empty-state p { font-size:.88rem; font-weight:500; line-height:1.6; }
+
+/* ============================================================
+   UTILITIES
+============================================================ */
+.text-center { text-align:center; }
+.mt-1 { margin-top:.5rem; }
+.mt-2 { margin-top:1rem; }
+.mt-3 { margin-top:1.5rem; }
+.mb-1 { margin-bottom:.5rem; }
+.mb-2 { margin-bottom:1rem; }
+.mb-3 { margin-bottom:1.5rem; }
+.flex { display:flex; }
+.flex-wrap { flex-wrap:wrap; }
+.gap-1 { gap:.5rem; }
+.gap-2 { gap:1rem; }
+.items-center { align-items:center; }
+.justify-between { justify-content:space-between; }
+.hidden { display:none !important; }
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width:1024px) {
+  .nav-links { display:none; }
+  .mobile-menu-btn { display:flex; }
+  .feature-grid { grid-template-columns:repeat(2, 1fr); }
+  .feature-card.featured { grid-column:span 2; }
+}
+@media (max-width:640px) {
+  .feature-grid { grid-template-columns:1fr; }
+  .feature-card.featured { grid-column:span 1; }
+  .btn { width:100%; }
+  .hero-actions .btn { width:auto; }
+  .mood-picker-grid { grid-template-columns:repeat(3, 1fr); }
+  .memory-diff-select { grid-template-columns:1fr; }
+  .game-result-stats { grid-template-columns:repeat(2, 1fr); }
+  .vm-grid { grid-template-columns:1fr; }
+  .footer-inner { flex-direction:column; text-align:center; }
+  #toast { white-space:normal; text-align:center; }
+}
+@media (prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  .reveal { opacity:1 !important; transform:none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="#home" class="nav-logo">
+    <span class="nav-logo-icon"><i data-feather="compass"></i></span>
+    WHO <em>AM I?</em>
+  </a>
+  <div class="nav-links">
+    <a href="#home" data-route="home">Home</a>
+    <a href="#kenali-diri" data-route="kenali-diri">Kenali Diri</a>
+    <a href="#ruang-emosi" data-route="ruang-emosi">Ruang Emosi</a>
+    <a href="#jurnal" data-route="jurnal">Jurnal</a>
+    <a href="#tumbuh" data-route="tumbuh">Tumbuh</a>
+    <a href="#play-learn" data-route="play-learn">Play & Learn</a>
+    <a href="#insight" data-route="insight">Insight</a>
+    <a href="#about" data-route="about">About Us</a>
+  </div>
+  <div class="nav-actions">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Ganti tema"><i data-feather="moon"></i></button>
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu"><i data-feather="menu"></i></button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#home" data-route="home"><i data-feather="home"></i> Home</a>
+  <a href="#kenali-diri" data-route="kenali-diri"><i data-feather="compass"></i> Kenali Diri</a>
+  <a href="#ruang-emosi" data-route="ruang-emosi"><i data-feather="heart"></i> Ruang Emosi</a>
+  <a href="#jurnal" data-route="jurnal"><i data-feather="edit-3"></i> Jurnal</a>
+  <a href="#tumbuh" data-route="tumbuh"><i data-feather="target"></i> Tumbuh</a>
+  <a href="#play-learn" data-route="play-learn"><i data-feather="award"></i> Play & Learn</a>
+  <a href="#insight" data-route="insight"><i data-feather="book-open"></i> Insight</a>
+  <a href="#about" data-route="about"><i data-feather="users"></i> About Us</a>
+</div>
+
+<!-- MAIN -->
+<main id="app">
+  <section id="page-home" class="page"></section>
+  <section id="page-kenali-diri" class="page"></section>
+  <section id="page-ruang-emosi" class="page"></section>
+  <section id="page-jurnal" class="page"></section>
+  <section id="page-tumbuh" class="page"></section>
+  <section id="page-play-learn" class="page"></section>
+  <section id="page-insight" class="page"></section>
+  <section id="page-about" class="page"></section>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="nav-logo-icon" style="width:26px;height:26px;"><i data-feather="compass" style="width:13px;height:13px;color:var(--text-primary);"></i></span>
+        WHO <em>AM I?</em>
+      </div>
+      <p>Self Discovery and Personal Growth Platform</p>
+      <p>&copy; 2025 WHO AM I? · Kelompok 3 BK-3B · UPI</p>
+    </div>
+  </div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   CORE UTILITIES
+============================================================ */
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+
+const storage = {
+  get(key, fallback) {
+    try { const v = localStorage.getItem('wai_' + key); return v ? JSON.parse(v) : fallback; }
+    catch { return fallback; }
+  },
+  set(key, value) {
+    try { localStorage.setItem('wai_' + key, JSON.stringify(value)); } catch {}
+  },
+  remove(key) {
+    try { localStorage.removeItem('wai_' + key); } catch {}
+  }
+};
+
+const escapeHtml = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const formatDate = (ts) => new Date(ts).toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
+const formatDateShort = (ts) => new Date(ts).toLocaleDateString('id-ID', { day:'numeric', month:'short' });
+const formatTime = (ts) => new Date(ts).toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
+const formatTimer = (sec) => `${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
+const dateKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* ============================================================
+   MIGRATION — Konversi format lama ke format baru
+============================================================ */
+function migrateData() {
+  // Mood: { "2025-11-24": 5 } → [{ id, date, time, mood, reason, extra }]
+  const oldMood = storage.get('mood', null);
+  if (oldMood && !storage.get('moods_v2', null)) {
+    const map = { 1: 'sedih', 2: 'cemas', 3: 'biasa', 4: 'tenang', 5: 'senang' };
+    const arr = Object.entries(oldMood).map(([date, lvl]) => ({
+      id: Date.now() + Math.random(),
+      date, time: new Date(date + 'T12:00:00').getTime(),
+      mood: map[lvl] || 'biasa', reason: '', extra: {}
+    }));
+    storage.set('moods_v2', arr);
+  }
+  // Journal: { id, title, text, date } → { id, title, text, date, type: 'daily' }
+  const oldJournal = storage.get('journal', null);
+  if (oldJournal && !storage.get('journals_v2', null)) {
+    storage.set('journals_v2', oldJournal.map(e => ({ ...e, type: 'daily' })));
+  }
+  // Goals: { id, text, done } → { id, name, desc, category, dueDate, done, createdAt }
+  const oldGoals = storage.get('goals', null);
+  if (oldGoals && !storage.get('goals_v2', null)) {
+    storage.set('goals_v2', oldGoals.map(g => ({
+      id: g.id, name: g.text, desc: '', category: 'Lainnya',
+      dueDate: null, done: !!g.done, createdAt: g.id
+    })));
+  }
+  // Quiz: { key, date } → { key, answers, timestamp }
+  const oldQuiz = storage.get('lastQuiz', null);
+  if (oldQuiz && !storage.get('quizResult_v2', null)) {
+    storage.set('quizResult_v2', { key: oldQuiz.key, answers: [], timestamp: oldQuiz.date || Date.now() });
+  }
+}
+
+/* ============================================================
+   MOOD DATA
+============================================================ */
+const MOODS = [
+  { key:'senang',    emoji:'😊', label:'Senang',      color:'#F5DCA8' },
+  { key:'bersyukur', emoji:'🥰', label:'Bersyukur',   color:'#F5C6D6' },
+  { key:'tenang',    emoji:'😌', label:'Tenang',      color:'#C5DCF0' },
+  { key:'biasa',     emoji:'😐', label:'Biasa saja',  color:'#D9D9D9' },
+  { key:'lelah',     emoji:'😴', label:'Lelah',       color:'#B8E0D2' },
+  { key:'cemas',     emoji:'😟', label:'Cemas',       color:'#D4C5E8' },
+  { key:'sedih',     emoji:'😢', label:'Sedih',       color:'#A8C5D4' },
+  { key:'marah',     emoji:'😠', label:'Marah',       color:'#E8A8A8' },
+  { key:'kecewa',    emoji:'😞', label:'Kecewa',      color:'#C5B8A8' }
+];
+const getMood = (key) => MOODS.find(m => m.key === key) || MOODS[3];
+const getMoods = () => storage.get('moods_v2', []);
+const saveMoods = (arr) => storage.set('moods_v2', arr);
+
+/* ============================================================
+   TEAM DATA (18 anggota — data resmi)
+============================================================ */
+const TEAM = [
+  { name:'Aulia Nabilah', nim:'2504003' },
+  { name:'Aurellia Endrini Marsa', nim:'2501726' },
+  { name:'Azzahra Shafitri Andrianita', nim:'2505286' },
+  { name:'Dinda Yuliani', nim:'2505291' },
+  { name:'Dzihni Keisya Athifa', nim:'2504540' },
+  { name:'Fatimatu Mughni Nashrillah', nim:'2507738' },
+  { name:'Hawa Maulida Lutfi', nim:'2508013' },
+  { name:'Hilmiyani Bestari', nim:'2509266' },
+  { name:'Imelda Fitriyanda', nim:'2508455' },
+  { name:'Muhmmad Irgiyan Rizqullah', nim:'2504477' },
+  { name:'Nadia Oktaviasyifa', nim:'2507453' },
+  { name:'Navila Naurinissa', nim:'2511281' },
+  { name:'Nur Hasanah', nim:'2506960' },
+  { name:'Patra Kumara Andhika', nim:'2509985' },
+  { name:'Raysha Komala Yuhardiman', nim:'2500637' },
+  { name:'Saffana Fauzia Hasna', nim:'2501126' },
+  { name:'Thania Lis Shabila', nim:'2502359' },
+  { name:'Yoga Firmansyah', nim:'2501670' }
+];
+const getInitials = (name) => {
+  const parts = name.trim().split(/\s+/);
+  return ((parts[0]?.[0] || '') + (parts[parts.length-1]?.[0] || '')).toUpperCase();
+};
+
+/* ============================================================
+   QUIZ DATA
+============================================================ */
+const QUIZ_QUESTIONS = [
+  { q:'Saat menghadapi masalah baru, kamu cenderung...', a:'Menganalisis dulu sebelum bertindak', b:'Langsung mencoba dan belajar sambil jalan' },
+  { q:'Waktu luang paling ideal bagimu adalah...', a:'Menyendiri dengan hobi atau buku', b:'Berkumpul dan berbagi cerita dengan orang lain' },
+  { q:'Kamu lebih percaya pada...', a:'Logika, data, dan fakta', b:'Intuisi dan perasaan' },
+  { q:'Dalam sebuah kelompok, kamu biasanya...', a:'Mengamati dulu, bicara saat perlu', b:'Langsung aktif dan mengambil peran' },
+  { q:'Saat membuat keputusan besar, kamu...', a:'Menyusun rencana detail dan mempertimbangkan risiko', b:'Mengikuti alur dan menyesuaikan saat jalan' }
+];
+const QUIZ_RESULTS = {
+  analyst: {
+    emoji:'🧠', title:'Sang Pemikir Analitis',
+    desc:'Kamu cenderung teliti, reflektif, dan suka memahami sesuatu secara mendalam. Kamu nyaman dengan struktur dan berpikir sebelum bertindak.',
+    strengths:['Analisis tajam','Sabaran dan teliti','Konsisten pada rencana'],
+    tips:['Coba lebih sering bertindak tanpa menunggu sempurna','Latih spontanitas dalam hal kecil','Bagikan ide sebelum terlalu lama dipendam']
+  },
+  balanced: {
+    emoji:'⚖️', title:'Sang Penyeimbang',
+    desc:'Kamu fleksibel — bisa analitis saat perlu, dan spontan saat situasi menuntut. Keseimbangan ini membuatmu mudah beradaptasi.',
+    strengths:['Adaptif','Baik membaca situasi','Kolaboratif'],
+    tips:['Perjelas nilai inti agar tidak selalu mengikuti arus','Ambil posisi saat perlu','Kenali batas energimu']
+  },
+  explorer: {
+    emoji:'🚀', title:'Sang Petualang Ekspresif',
+    desc:'Kamu energik, intuitif, dan suka bergerak. Kamu belajar dari pengalaman langsung dan cepat merespons sekitar.',
+    strengths:['Cepat beradaptasi','Antusias dan ekspresif','Berani mencoba hal baru'],
+    tips:['Luangkan waktu untuk refleksi sebelum memutuskan','Buat catatan agar tidak mudah lupa','Latih fokus pada satu hal sampai selesai']
+  }
+};
+
+/* ============================================================
+   REFLECTION QUESTIONS
+============================================================ */
+const KENALI_REFLECTIONS = [
+  'Apa hal yang paling kamu sukai dari dirimu?',
+  'Apa kemampuan yang ingin kamu kembangkan?',
+  'Dalam situasi apa kamu merasa paling percaya diri?',
+  'Apa satu hal kecil yang hari ini membuatmu tersenyum?',
+  'Nilai apa yang paling penting bagimu dalam hidup?'
+];
+const JOURNAL_PROMPTS = [
+  'Apa pengalaman paling berkesan hari ini?',
+  'Apa hal yang membuatmu bangga?',
+  'Apa kesulitan yang berhasil kamu hadapi?',
+  'Apa yang ingin kamu perbaiki besok?',
+  'Apa yang kamu syukuri hari ini?'
+];
+
+/* ============================================================
+   CHALLENGES DATA
+============================================================ */
+const CHALLENGES = [
+  { id:'c1', category:'Self-confidence', text:'Berani menyampaikan pendapat dalam diskusi.' },
+  { id:'c2', category:'Self-confidence', text:'Mencoba hal baru yang selama ini ditunda.' },
+  { id:'c3', category:'Discipline', text:'Menyelesaikan satu tugas tanpa menunda.' },
+  { id:'c4', category:'Discipline', text:'Bangun pagi sesuai jadwal selama 3 hari berturut-turut.' },
+  { id:'c5', category:'Social Skills', text:'Mengucapkan terima kasih kepada seseorang hari ini.' },
+  { id:'c6', category:'Social Skills', text:'Mendengarkan seseorang tanpa memotong pembicaraan.' },
+  { id:'c7', category:'Emotional Awareness', text:'Meluangkan waktu 10 menit untuk refleksi.' },
+  { id:'c8', category:'Emotional Awareness', text:'Menamai satu emosi yang dirasakan hari ini.' },
+  { id:'c9', category:'Positive Habits', text:'Mengurangi penggunaan ponsel sebelum tidur.' },
+  { id:'c10', category:'Positive Habits', text:'Minum air putih yang cukup sepanjang hari.' },
+  { id:'c11', category:'Self-acceptance', text:'Menuliskan satu hal yang kamu syukuri tentang dirimu.' },
+  { id:'c12', category:'Self-acceptance', text:'Berhenti membandingkan diri dengan orang lain selama sehari.' }
+];
+const CHALLENGE_CATEGORIES = {
+  'Self-confidence': { icon:'star', color:'var(--lavender-soft)' },
+  'Discipline': { icon:'clock', color:'var(--sky-soft)' },
+  'Social Skills': { icon:'users', color:'var(--peach-soft)' },
+  'Emotional Awareness': { icon:'heart', color:'var(--pink-soft)' },
+  'Positive Habits': { icon:'sun', color:'var(--mint-soft)' },
+  'Self-acceptance': { icon:'smile', color:'var(--cream-soft)' }
+};
+
+/* ============================================================
+   GOAL CATEGORIES
+============================================================ */
+const GOAL_CATEGORIES = ['Pribadi','Akademik','Sosial','Kesehatan','Karir','Lainnya'];
+
+/* ============================================================
+   ARTICLES DATA
+============================================================ */
+const ARTICLES = [
+  {
+    slug:'konsep-diri', category:'Konsep Diri', title:'Mengenal Konsep Diri: Siapa Aku Sebenarnya?',
+    excerpt:'Konsep diri adalah cara kita memandang dan memahami diri sendiri. Memahaminya membantu kita hidup lebih autentik.',
+    readMin:4,
+    body:`<p><strong>Konsep diri</strong> adalah kumpulan keyakinan, penilaian, dan gambaran yang kita miliki tentang diri sendiri. Ini mencakup bagaimana kita melihat fisik, kemampuan, sifat, peran sosial, dan nilai-nilai kita.</p>
+    <p>Konsep diri terbentuk sejak kecil melalui interaksi dengan keluarga, teman, guru, dan pengalaman hidup. Ketika kita sering mendapat umpan balik positif, kita cenderung membangun konsep diri yang sehat. Sebaliknya, pengalaman negatif berulang bisa membuat kita meragukan diri.</p>
+    <p>Konsep diri bukan sesuatu yang tetap. Ia bisa berubah seiring waktu dan pengalaman baru. Memahami konsep diri membantu kita mengenali kekuatan, menerima keterbatasan, dan memilih jalan hidup yang selaras dengan nilai kita.</p>
+    <p><strong>Refleksi:</strong> Coba tuliskan tiga kata yang paling menggambarkan dirimu saat ini. Apakah kata-kata itu berasal dari penilaianmu sendiri, atau dari penilaian orang lain?</p>`,
+    reflection:'Coba tuliskan tiga kata yang paling menggambarkan dirimu saat ini.'
+  },
+  {
+    slug:'emosi-dasar', category:'Kesehatan Emosional', title:'Memahami Emosi Dasar Manusia',
+    excerpt:'Emosi adalah sinyal penting dari tubuh dan pikiran. Mengenali emosi dasar membantu kita merespons dengan lebih bijak.',
+    readMin:5,
+    body:`<p>Emosi adalah respons psikologis dan fisiologis yang muncul sebagai reaksi terhadap situasi tertentu. Psikolog sering menyebut enam emosi dasar: senang, sedih, takut, marah, jijik, dan terkejut. Meski demikian, emosi yang kita alami sehari-hari jauh lebih kaya dan bercampur.</p>
+    <p>Emosi bukan sesuatu yang salah atau harus ditekan. Emosi adalah <strong>informasi</strong>. Rasa cemas bisa menjadi sinyal bahwa ada hal yang perlu dipersiapkan. Rasa marah bisa menandakan bahwa batas pribadi kita dilanggar. Rasa sedih sering muncul ketika kita kehilangan sesuatu yang berharga.</p>
+    <p>Yang penting bukan menghilangkan emosi negatif, tetapi <strong>mengenali</strong> dan <strong>mengelolanya</strong> dengan cara yang sehat. Langkah pertama adalah memberi nama pada apa yang kita rasakan. Penelitian menunjukkan bahwa memberi label emosi dapat menurunkan intensitasnya.</p>
+    <p><strong>Refleksi:</strong> Emosi apa yang paling sering kamu rasakan minggu ini? Apa yang mungkin ingin disampaikan emosi itu kepadamu?</p>`,
+    reflection:'Emosi apa yang paling sering kamu rasakan minggu ini?'
+  },
+  {
+    slug:'regulasi-emosi', category:'Regulasi Emosi', title:'Regulasi Emosi: Teknik Sederhana yang Bisa Dicoba',
+    excerpt:'Regulasi emosi bukan menekan perasaan, tapi mengelolanya dengan cara yang sehat. Ini beberapa teknik yang bisa kamu coba.',
+    readMin:4,
+    body:`<p>Regulasi emosi adalah kemampuan untuk memengaruhi emosi yang kita rasakan — kapan kita merasakannya, seberapa intens, dan bagaimana kita mengekspresikannya. Ini bukan berarti menekan atau mengabaikan emosi, melainkan mengelolanya dengan cara yang sehat.</p>
+    <p><strong>1. Teknik pernapasan 4-7-8.</strong> Hirup napas 4 detik, tahan 7 detik, buang 8 detik. Ulangi 3-4 kali. Teknik ini membantu menenangkan sistem saraf.</p>
+    <p><strong>2. Grounding 5-4-3-2-1.</strong> Sebutkan 5 hal yang bisa dilihat, 4 yang bisa disentuh, 3 yang bisa didengar, 2 yang bisa dicium, 1 yang bisa dirasakan. Teknik ini membantumu kembali ke momen sekarang.</p>
+    <p><strong>3. Menulis jurnal.</strong> Menuangkan pikiran ke kertas membantu mengurai emosi yang terasa kusut.</p>
+    <p><strong>4. Self-compassion.</strong> Bicara pada diri sendiri seperti kamu bicara pada sahabat yang sedang sedih.</p>
+    <p><strong>Refleksi:</strong> Teknik mana yang paling ingin kamu coba minggu ini? Mengapa?</p>`,
+    reflection:'Teknik regulasi emosi mana yang paling ingin kamu coba minggu ini?'
+  },
+  {
+    slug:'self-esteem', category:'Self-esteem', title:'Membangun Self-Esteem yang Sehat',
+    excerpt:'Self-esteem bukan tentang merasa sempurna, tapi tentang menerima diri apa adanya dan tetap berusaha tumbuh.',
+    readMin:5,
+    body:`<p><strong>Self-esteem</strong> atau harga diri adalah penilaian keseluruhan seseorang terhadap nilai dirinya. Self-esteem yang sehat bukan berarti merasa selalu hebat atau sempurna, tetapi mampu menerima diri — dengan segala kelebihan dan kekurangan — sambil tetap berusaha tumbuh.</p>
+    <p>Self-esteem dibentuk oleh pengalaman, hubungan, dan pola pikir kita. Kabar baiknya, self-esteem bisa dilatih. Berikut beberapa hal yang bisa membantu:</p>
+    <p><strong>1. Kenali dan hargai pencapaian kecil.</strong> Seringkali kita hanya menghargai pencapaian besar. Padahal, mengakui hal-hal kecil yang berhasil dilakukan bisa membangun rasa mampu.</p>
+    <p><strong>2. Berhenti membandingkan diri dengan orang lain.</strong> Media sosial membuat perbandingan terasa tak terhindarkan. Sadari bahwa setiap orang punya perjalanan dan konteksnya sendiri.</p>
+    <p><strong>3. Latih self-talk yang suportif.</strong> Perhatikan bagaimana kamu berbicara pada diri sendiri. Jika terlalu keras, coba ganti dengan kalimat yang lebih adil.</p>
+    <p><strong>Refleksi:</strong> Apa satu hal yang baru-baru ini berhasil kamu lakukan dan patut kamu hargai?</p>`,
+    reflection:'Apa satu hal yang baru-baru ini berhasil kamu lakukan dan patut kamu hargai?'
+  },
+  {
+    slug:'percaya-diri', category:'Self-confidence', title:'Kepercayaan Diri: Mitos dan Faktanya',
+    excerpt:'Banyak anggapan keliru tentang percaya diri. Yuk, bedakan mitos dan fakta agar kita bisa membangunnya dengan cara yang sehat.',
+    readMin:4,
+    body:`<p>Kepercayaan diri sering disalahpahami sebagai "tidak pernah ragu" atau "selalu berani". Padahal, orang yang percaya diri justru sering merasa ragu — mereka hanya tetap melangkah meski ragu.</p>
+    <p><strong>Mitos:</strong> Percaya diri berarti tidak pernah takut. <strong>Fakta:</strong> Percaya diri berarti tetap melangkah meski takut.</p>
+    <p><strong>Mitos:</strong> Percaya diri itu bawaan sejak lahir. <strong>Fakta:</strong> Percaya diri bisa dilatih melalui pengalaman, dukungan, dan refleksi.</p>
+    <p><strong>Mitos:</strong> Percaya diri berarti selalu yakin benar. <strong>Fakta:</strong> Percaya diri yang sehat justru melibatkan kerendahan hati untuk belajar dari kesalahan.</p>
+    <p>Cara paling efektif membangun percaya diri adalah dengan <strong>melakukan hal-hal kecil yang menantang</strong> secara bertahap. Setiap pengalaman berhasil — sekecil apa pun — menambah keyakinan bahwa kita mampu.</p>
+    <p><strong>Refleksi:</strong> Tantangan kecil apa yang bisa kamu coba minggu ini untuk melatih kepercayaan dirimu?</p>`,
+    reflection:'Tantangan kecil apa yang bisa kamu coba minggu ini untuk melatih kepercayaan dirimu?'
+  },
+  {
+    slug:'kebiasaan-kecil', category:'Pengembangan Diri', title:'Kebiasaan Kecil untuk Pengembangan Diri',
+    excerpt:'Perubahan besar dimulai dari langkah kecil yang konsisten. Ini beberapa kebiasaan sederhana yang bisa kamu mulai hari ini.',
+    readMin:4,
+    body:`<p>Banyak orang menunda pengembangan diri karena merasa butuh perubahan besar. Padahal, <strong>perubahan kecil yang konsisten</strong> sering lebih berdampak dalam jangka panjang.</p>
+    <p><strong>1. Bangun pagi 15 menit lebih awal.</strong> Waktu tambahan di pagi hari bisa digunakan untuk refleksi, membaca, atau sekadar menikmati ketenangan.</p>
+    <p><strong>2. Baca 5 halaman buku setiap hari.</strong> Dalam setahun, itu berarti sekitar 10-12 buku.</p>
+    <p><strong>3. Tulis satu hal yang disyukuri.</strong> Kebiasaan kecil ini melatih pikiran untuk lebih positif.</p>
+    <p><strong>4. Berjalan kaki 10 menit setelah makan.</strong> Baik untuk tubuh dan pikiran.</p>
+    <p><strong>5. Matikan ponsel 30 menit sebelum tidur.</strong> Membantu kualitas tidur dan memberi ruang untuk refleksi.</p>
+    <p><strong>Refleksi:</strong> Kebiasaan kecil mana yang paling mungkin kamu mulai minggu ini?</p>`,
+    reflection:'Kebiasaan kecil mana yang paling mungkin kamu mulai minggu ini?'
+  },
+  {
+    slug:'komunikasi-empatik', category:'Hubungan Sosial', title:'Komunikasi Empatik dalam Relasi',
+    excerpt:'Empati adalah kemampuan memahami perasaan orang lain. Ini keterampilan penting yang bisa dilatih dalam komunikasi sehari-hari.',
+    readMin:5,
+    body:`<p><strong>Empati</strong> adalah kemampuan untuk memahami dan merasakan apa yang dialami orang lain dari sudut pandang mereka. Berbeda dengan simpati yang cenderung "merasa kasihan", empati melibatkan upaya untuk benar-benar hadir dan memahami.</p>
+    <p>Komunikasi empatik melibatkan beberapa hal:</p>
+    <p><strong>1. Mendengar aktif.</strong> Bukan hanya mendengar kata-kata, tetapi juga memperhatikan nada, ekspresi, dan perasaan di baliknya.</p>
+    <p><strong>2. Tidak buru-buru memberi solusi.</strong> Seringkali orang hanya butuh didengar, bukan langsung diberi saran.</p>
+    <p><strong>3. Menggunakan kalimat "Aku mendengar kamu merasa..."</strong> Ini menunjukkan bahwa kita berusaha memahami, bukan menghakimi.</p>
+    <p><strong>4. Bertanya dengan tulus.</strong> "Boleh cerita lebih lanjut?" atau "Apa yang paling berat dari situasi ini?" membantu orang lain merasa didengar.</p>
+    <p><strong>Refleksi:</strong> Kapan terakhir kali kamu benar-benar mendengarkan seseorang tanpa buru-buru memberi nasihat?</p>`,
+    reflection:'Kapan terakhir kali kamu benar-benar mendengarkan seseorang tanpa buru-buru memberi nasihat?'
+  },
+  {
+    slug:'refleksi-bk', category:'Materi BK', title:'Refleksi Diri dalam Perspektif Bimbingan dan Konseling',
+    excerpt:'Refleksi diri adalah inti dari layanan Bimbingan dan Konseling. Memahami konsepnya membantu kita mengenal diri lebih dalam.',
+    readMin:5,
+    body:`<p>Dalam dunia <strong>Bimbingan dan Konseling (BK)</strong>, refleksi diri memegang peran penting. BK memandang setiap individu sebagai pribadi yang utuh, unik, dan memiliki potensi untuk berkembang.</p>
+    <p>Refleksi diri dalam BK bukan sekadar "merenung", tetapi proses yang terstruktur: mengenali apa yang dirasakan, memahami penyebabnya, dan merencanakan tindakan yang lebih baik. Proses ini mendukung perkembangan pribadi, sosial, belajar, dan karier.</p>
+    <p>Beberapa prinsip refleksi dalam perspektif BK:</p>
+    <p><strong>1. Tidak menghakimi.</strong> Refleksi bukan ajang menyalahkan diri, tetapi memahami diri.</p>
+    <p><strong>2. Fokus pada kekuatan.</strong> Selain mengenali kelemahan, penting untuk menyadari kekuatan dan potensi yang sudah ada.</p>
+    <p><strong>3. Berkelanjutan.</strong> Refleksi bukan sekali jadi, tetapi kebiasaan yang ditumbuhkan.</p>
+    <p><strong>4. Berbasis tindakan.</strong> Refleksi bermakna jika berujung pada langkah kecil yang konkret.</p>
+    <p><strong>Refleksi:</strong> Bagaimana refleksi diri bisa membantumu dalam belajar, bersosialisasi, atau merencanakan masa depan?</p>`,
+    reflection:'Bagaimana refleksi diri bisa membantumu dalam belajar, bersosialisasi, atau merencanakan masa depan?'
+  }
+];
+
+/* ============================================================
+   EMOTION QUIZ DATA
+============================================================ */
+const EMOTION_QUIZ = [
+  {
+    situation:'Sahabatmu lupa datang ke janji temu yang sudah direncanakan.',
+    options:['Senang','Kecewa','Bersyukur','Tenang'],
+    correct:'Kecewa',
+    feedback:'Wajar merasa kecewa ketika harapan tidak terpenuhi. Coba komunikasikan perasaanmu dengan tenang, lalu cari solusinya bersama.'
+  },
+  {
+    situation:'Kamu mendapat nilai bagus setelah belajar keras berhari-hari.',
+    options:['Marah','Senang','Cemas','Sedih'],
+    correct:'Senang',
+    feedback:'Rasa senang setelah usaha keras adalah respons alami. Nikmati momen ini dan hargai proses yang sudah kamu lalui.'
+  },
+  {
+    situation:'Kamu memikirkan presentasi besok dan sulit tidur.',
+    options:['Cemas','Bersyukur','Tenang','Kecewa'],
+    correct:'Cemas',
+    feedback:'Cemas adalah sinyal bahwa ada hal yang perlu dipersiapkan. Coba tarik napas dalam dan siapkan presentasimu sebaik mungkin.'
+  },
+  {
+    situation:'Seseorang menyinggungmu di depan banyak orang.',
+    options:['Senang','Marah','Bersyukur','Sedih'],
+    correct:'Marah',
+    feedback:'Marah bisa muncul ketika batas pribadi kita dilanggar. Beri dirimu waktu untuk menenangkan diri sebelum merespons.'
+  },
+  {
+    situation:'Kamu menghabiskan waktu berkualitas bersama keluarga tercinta.',
+    options:['Marah','Cemas','Bersyukur','Kecewa'],
+    correct:'Bersyukur',
+    feedback:'Rasa syukur sering muncul saat kita menyadari betapa berharganya sesuatu. Coba tuliskan hal ini di jurnal syukurmu.'
+  },
+  {
+    situation:'Kamu baru saja bangun setelah tidur sangat larut malam.',
+    options:['Lelah','Senang','Bersyukur','Tenang'],
+    correct:'Lelah',
+    feedback:'Lelah adalah sinyal tubuh bahwa ia butuh istirahat. Coba dengarkan kebutuhan tubuhmu hari ini.'
+  }
+];
+
+/* ============================================================
+   WORD OF ME DATA
+============================================================ */
+const WORD_OPTIONS = [
+  'Jujur','Berani','Sabar','Kreatif','Empatik','Disiplin','Optimis','Rendah Hati',
+  'Setia','Percaya Diri','Terbuka','Bertanggung Jawab','Rasa Ingin Tahu','Tenang','Fokus','Peduli'
+];
+const WORD_REFLECTIONS = {
+  'Jujur':'Kapan terakhir kali kamu jujur pada diri sendiri?',
+  'Berani':'Apa satu hal yang ingin kamu lakukan dengan lebih berani?',
+  'Sabar':'Situasi apa yang paling menguji kesabaranmu belakangan ini?',
+  'Kreatif':'Ide atau karya apa yang paling kamu banggakan?',
+  'Empatik':'Siapa orang yang paling kamu perhatikan perasaannya?',
+  'Disiplin':'Kebiasaan kecil apa yang ingin kamu lebih disiplin?',
+  'Optimis':'Apa hal baik yang bisa kamu lihat dari situasi sulit belakangan ini?',
+  'Rendah Hati':'Apa pelajaran yang kamu dapat dari seseorang yang lebih berpengalaman?',
+  'Setia':'Siapa atau apa yang paling kamu setia padanya?',
+  'Percaya Diri':'Situasi apa yang membuatmu merasa paling percaya diri?',
+  'Terbuka':'Kepada siapa kamu paling terbuka, dan mengapa?',
+  'Bertanggung Jawab':'Tanggung jawab apa yang paling kamu pegang saat ini?',
+  'Rasa Ingin Tahu':'Topik apa yang paling membuatmu penasaran belakangan ini?',
+  'Tenang':'Kegiatan apa yang paling membuatmu merasa tenang?',
+  'Fokus':'Apa hal yang paling ingin kamu fokuskan minggu ini?',
+  'Peduli':'Siapa atau apa yang paling kamu pedulikan saat ini?'
+};
+
+/* ============================================================
+   GLOBAL STATE
+============================================================ */
+const state = {
+  quizIndex: 0,
+  quizAnswers: [],
+  memoryTimer: null,
+  memoryState: null,
+  emotionQuizIndex: 0,
+  emotionQuizScore: 0,
+  wordSelections: [],
+  currentArticle: null,
+  moodEditId: null,
+  journalEditId: null,
+  goalEditId: null,
+  activeMoodForm: false,
+  calendarMonth: new Date().getMonth(),
+  calendarYear: new Date().getFullYear(),
+  journalSearch: '',
+  journalFilter: '',
+  insightSearch: '',
+  insightCategory: 'Semua',
+  activeJournalTab: 'daily',
+  activeGameTab: 'memory'
+};
+
+/* ============================================================
+   ROUTER
+============================================================ */
+const routes = ['home','kenali-diri','ruang-emosi','jurnal','tumbuh','play-learn','insight','about'];
+const pageRenderers = {
+  home: renderHome,
+  'kenali-diri': renderKenaliDiri,
+  'ruang-emosi': renderRuangEmosi,
+  'jurnal': renderJurnal,
+  'tumbuh': renderTumbuh,
+  'play-learn': renderPlayLearn,
+  'insight': renderInsight,
+  'about': renderAbout
+};
+const pageAfterRender = {
+  home: afterHome,
+  'kenali-diri': afterKenaliDiri,
+  'ruang-emosi': afterRuangEmosi,
+  'jurnal': afterJurnal,
+  'tumbuh': afterTumbuh,
+  'play-learn': afterPlayLearn,
+  'insight': afterInsight,
+  'about': afterAbout
+};
+
+function getRoute() {
+  const h = location.hash.replace('#', '').split('/')[0] || 'home';
+  return routes.includes(h) ? h : 'home';
+}
+function cleanupCurrentPage() {
+  if (state.memoryTimer) { clearInterval(state.memoryTimer); state.memoryTimer = null; }
+  state.memoryState = null;
+  state.quizIndex = 0;
+  state.quizAnswers = [];
+  state.emotionQuizIndex = 0;
+  state.emotionQuizScore = 0;
+  state.wordSelections = [];
+  state.currentArticle = null;
+  state.moodEditId = null;
+  state.journalEditId = null;
+  state.goalEditId = null;
+  state.activeMoodForm = false;
+}
+function onRouteChange() {
+  cleanupCurrentPage();
+  const route = getRoute();
+  $$('.page').forEach(p => { p.classList.remove('active'); p.innerHTML = ''; });
+  const el = document.getElementById('page-' + route);
+  el.innerHTML = pageRenderers[route]();
+  requestAnimationFrame(() => {
+    el.classList.add('active');
+    el.querySelectorAll('.reveal').forEach(r => r.classList.add('visible'));
+    feather.replace();
+    pageAfterRender[route]?.();
+  });
+  $$('[data-route]').forEach(a => a.classList.toggle('active', a.dataset.route === route));
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+/* ============================================================
+   PAGE: HOME
+============================================================ */
+function renderHome() {
+  const features = [
+    { route:'kenali-diri', icon:'compass', title:'Kenali Diri', desc:'Eksplorasi kepribadian, kekuatan, dan potensi dirimu melalui kuis refleksi.' },
+    { route:'ruang-emosi', icon:'heart', title:'Ruang Emosi', desc:'Pahami dan catat suasana hati harian beserta alasan di baliknya.' },
+    { route:'jurnal', icon:'edit-3', title:'Jurnal', desc:'Ruang aman untuk menuangkan pikiran, rasa syukur, dan refleksi pribadi.' },
+    { route:'tumbuh', icon:'target', title:'Tumbuh', desc:'Tetapkan tujuan, ikuti tantangan, dan lacak perkembangan dirimu.' },
+    { route:'play-learn', icon:'award', title:'Play & Learn', desc:'Belajar tentang diri melalui permainan interaktif yang menyenangkan.' },
+    { route:'insight', icon:'book-open', title:'Insight', desc:'Bacaan seputar pengenalan diri, emosi, dan pengembangan diri.' },
+    { route:'about', icon:'users', title:'About Us', desc:'Kenali tim di balik WHO AM I? dan identitas akademik proyek.' }
+  ];
+
+  return `
+    <div class="hero-home">
+      <div class="container">
+        <div class="hero-badge reveal">
+          <i data-feather="sparkles"></i>
+          <em>Self Discovery</em> & Personal Growth
+        </div>
+        <h1 class="hero-title reveal reveal-delay-1" style="transition-delay:.05s;">
+          Selamat Datang di <span class="highlight">WHO AM I?</span>
+        </h1>
+        <div class="hero-tagline reveal" style="transition-delay:.15s;">
+          <i data-feather="star"></i>
+          Discover Yourself. Understand Your Emotions. Grow Beyond Yourself.
+        </div>
+        <p class="hero-subtitle reveal" style="transition-delay:.25s;">
+          Platform digital edukatif untuk membantu kamu mengenali diri, memahami emosi, mengeksplorasi potensi, dan mengembangkan diri — melalui aktivitas yang interaktif dan bermakna.
+        </p>
+        <div class="hero-actions reveal" style="transition-delay:.35s;">
+          <a href="#kenali-diri" class="btn btn-primary">
+            <i data-feather="compass"></i> Mulai Perjalanan
+          </a>
+          <a href="#about" class="btn btn-secondary">
+            <i data-feather="users"></i> Tentang Kami
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="grid"></i> Jelajahi Platform</span>
+          <h2 class="section-title">Pilih ruang yang ingin kamu kunjungi</h2>
+          <p class="section-desc">Setiap ruang dirancang untuk mendukung perjalanan pengenalan dirimu. Mulai dari mana saja.</p>
+        </div>
+        <div class="feature-grid">
+          ${features.map((f, i) => `
+            <a href="#${f.route}" class="feature-card ${i === 0 ? 'featured' : ''}">
+              <div class="fc-icon"><i data-feather="${f.icon}"></i></div>
+              <h3>${f.title}</h3>
+              <p>${f.desc}</p>
+              <span class="fc-link">Buka <i data-feather="arrow-right"></i></span>
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="info"></i> Tentang Platform</span>
+          <h2 class="section-title">Mengapa WHO AM I? Hadir?</h2>
+          <p class="section-desc">WHO AM I? merupakan platform eksplorasi diri yang dirancang untuk membantu individu mengenali potensi, memahami emosi, merefleksikan pengalaman, serta mengembangkan diri melalui aktivitas yang interaktif dan bermakna.</p>
+        </div>
+        <div style="text-align:center;margin-top:1.5rem;">
+          <a href="#about" class="btn btn-secondary">
+            <i data-feather="info"></i> Pelajari Lebih Lanjut
+          </a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+function afterHome() {}
+
+/* ============================================================
+   PAGE: KENALI DIRI
+============================================================ */
+function renderKenaliDiri() {
+  const savedResult = storage.get('quizResult_v2', null);
+  const reflectionAnswers = storage.get('reflections_v2', {});
+
+  return `
+    <div class="page-header">
+      <div class="container">
+        <div class="badge"><i data-feather="compass"></i> Discover Yourself</div>
+        <h1 class="page-title">Kenali Diri</h1>
+        <p class="page-subtitle">Discover Your Inner Self.</p>
+        <p class="page-desc">Kenali dirimu lebih dalam — mulai dari kepribadian, kekuatan, minat, hingga potensi yang ingin kamu kembangkan.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="info"></i> Eksplorasi</span>
+          <h2 class="section-title">Empat pilar pengenalan diri</h2>
+        </div>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="ic-icon"><i data-feather="smile"></i></div>
+            <h4>Konsep Diri</h4>
+            <p>Cara kamu memandang dan memahami dirimu sendiri — mencakup fisik, sifat, peran, dan nilai-nilai.</p>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon"><i data-feather="user"></i></div>
+            <h4>Kepribadian</h4>
+            <p>Pola perilaku, pikiran, dan emosi yang khas pada dirimu dalam menghadapi situasi.</p>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon"><i data-feather="star"></i></div>
+            <h4>Kelebihan & Kekurangan</h4>
+            <p>Kekuatan yang bisa kamu kembangkan dan keterbatasan yang bisa kamu kelola dengan bijak.</p>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon"><i data-feather="zap"></i></div>
+            <h4>Minat & Potensi</h4>
+            <p>Hal-hal yang membuatmu bersemangat dan kemampuan yang ingin kamu kembangkan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="edit-3"></i> Refleksi Pribadi</span>
+          <h2 class="section-title">Pertanyaan refleksi</h2>
+          <p class="section-desc">Luangkan waktu untuk menjawab dengan jujur. Jawabanmu tersimpan otomatis di perangkatmu.</p>
+        </div>
+        <div style="max-width:720px;margin:0 auto;" id="reflection-container">
+          ${KENALI_REFLECTIONS.map((q, i) => `
+            <div class="reflection-item">
+              <div class="reflection-q">
+                <span class="rq-num">${i + 1}</span>
+                ${q}
+              </div>
+              <textarea class="reflection-input" data-ref-q="${i}" placeholder="Tuliskan jawabanmu...">${escapeHtml(reflectionAnswers[i] || '')}</textarea>
+              <div class="reflection-saved hidden" data-ref-saved="${i}">
+                <i data-feather="check-circle"></i> Tersimpan
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="help-circle"></i> Kuis Refleksi</span>
+          <h2 class="section-title">Kuis Kepribadian & Kekuatan</h2>
+          <p class="section-desc">Jawab 5 pertanyaan singkat untuk melihat kecenderungan kepribadianmu. Tidak ada jawaban benar atau salah.</p>
+        </div>
+        <div id="quiz-container">
+          ${savedResult ? renderQuizResultView(savedResult) : renderQuizStartView()}
+        </div>
+        <div class="quiz-disclaimer" style="max-width:640px;margin:1.5rem auto 0;">
+          <strong>Catatan:</strong> Hasil kuis ini merupakan sarana refleksi edukatif, bukan diagnosis psikologis. Untuk pemahaman mendalam, konsultasikan dengan konselor atau psikolog profesional.
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderQuizStartView() {
+  return `
+    <div class="quiz-card text-center">
+      <div style="font-size:3rem;margin-bottom:.75rem;">🧭</div>
+      <h3 style="font-family:var(--font-display);font-size:1.3rem;margin-bottom:.75rem;">Siap Mengenal Dirimu?</h3>
+      <p style="color:var(--text-secondary);font-size:.9rem;margin-bottom:1.5rem;line-height:1.7;">Kuis singkat 5 pertanyaan untuk memetakan kecenderungan kepribadian, kekuatan, dan saran pengembangan dirimu.</p>
+      <button class="btn btn-primary" id="quiz-start-btn" style="width:100%;max-width:320px;margin:0 auto;">
+        <i data-feather="play-circle"></i> Mulai Kuis
+      </button>
+    </div>
+  `;
+}
+
+function renderQuizQuestionView() {
+  const q = QUIZ_QUESTIONS[state.quizIndex];
+  const progress = (state.quizIndex / QUIZ_QUESTIONS.length) * 100;
+  return `
+    <div class="quiz-card">
+      <div class="quiz-progress"><div class="quiz-progress-bar" style="width:${progress}%"></div></div>
+      <p class="quiz-counter">Pertanyaan ${state.quizIndex + 1} dari ${QUIZ_QUESTIONS.length}</p>
+      <h3 class="quiz-q">${q.q}</h3>
+      <div class="quiz-options">
+        <button class="quiz-option" data-answer="A">${q.a}</button>
+        <button class="quiz-option" data-answer="B">${q.b}</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderQuizResultView(result) {
+  const r = QUIZ_RESULTS[result.key] || QUIZ_RESULTS.balanced;
+  return `
+    <div class="quiz-card">
+      <div class="quiz-result-hero">
+        <div class="quiz-result-emoji">${r.emoji}</div>
+        <h3 class="quiz-result-title">${r.title}</h3>
+        <p class="quiz-result-desc">${r.desc}</p>
+      </div>
+      <div class="result-section">
+        <h4><i data-feather="star"></i> Kekuatanmu</h4>
+        <ul class="result-list">${r.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+      </div>
+      <div class="result-section">
+        <h4><i data-feather="trending-up"></i> Saran Pengembangan</h4>
+        <ul class="result-list">${r.tips.map(s => `<li>${s}</li>`).join('')}</ul>
+      </div>
+      <div style="margin-top:1.5rem;display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-secondary btn-sm" id="quiz-retake-btn">
+          <i data-feather="refresh-cw"></i> Ulangi Kuis
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function afterKenaliDiri() {
+  // Reflection autosave
+  $$('[data-ref-q]').forEach(textarea => {
+    textarea.addEventListener('input', () => {
+      const idx = textarea.dataset.refQ;
+      const answers = storage.get('reflections_v2', {});
+      answers[idx] = textarea.value;
+      storage.set('reflections_v2', answers);
+      const saved = $(`[data-ref-saved="${idx}"]`);
+      if (saved) {
+        saved.classList.remove('hidden');
+        clearTimeout(saved._t);
+        saved._t = setTimeout(() => saved.classList.add('hidden'), 1500);
+      }
+    });
+  });
+
+  // Quiz
+  const startBtn = $('#quiz-start-btn');
+  if (startBtn) startBtn.addEventListener('click', startQuiz);
+  const retakeBtn = $('#quiz-retake-btn');
+  if (retakeBtn) retakeBtn.addEventListener('click', startQuiz);
+
+  function startQuiz() {
+    state.quizIndex = 0;
+    state.quizAnswers = [];
+    renderQuizStep();
+  }
+  function renderQuizStep() {
+    const container = $('#quiz-container');
+    if (!container) return;
+    container.innerHTML = renderQuizQuestionView();
+    feather.replace();
+    $$('.quiz-option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.quizAnswers.push(btn.dataset.answer);
+        state.quizIndex++;
+        if (state.quizIndex < QUIZ_QUESTIONS.length) {
+          renderQuizStep();
+        } else {
+          const countA = state.quizAnswers.filter(a => a === 'A').length;
+          const key = countA >= 4 ? 'analyst' : countA >= 2 ? 'balanced' : 'explorer';
+          const result = { key, answers: state.quizAnswers, timestamp: Date.now() };
+          storage.set('quizResult_v2', result);
+          container.innerHTML = renderQuizResultView(result);
+          feather.replace();
+          const retake = $('#quiz-retake-btn');
+          if (retake) retake.addEventListener('click', startQuiz);
+          toast('Hasil kuis tersimpan ✨');
+        }
+      });
+    });
+  }
+}
+
+/* ============================================================
+   PAGE: RUANG EMOSI
+============================================================ */
+function renderRuangEmosi() {
+  return `
+    <div class="page-header">
+      <div class="container">
+        <div class="badge"><i data-feather="heart"></i> Understand Your Emotions</div>
+        <h1 class="page-title">Ruang Emosi</h1>
+        <p class="page-subtitle">Understand What You Feel.</p>
+        <p class="page-desc">Kenali, catat, dan pahami emosimu. Emosi adalah informasi berharga — bukan sesuatu yang harus ditekan.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="book-open"></i> Emotional Awareness</span>
+          <h2 class="section-title">Mengenal emosi</h2>
+        </div>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="ic-icon"><i data-feather="heart"></i></div>
+            <h4>Apa itu Emosi?</h4>
+            <p>Respons psikologis dan fisiologis terhadap situasi tertentu. Emosi memberi informasi tentang apa yang kita butuhkan.</p>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon"><i data-feather="smile"></i></div>
+            <h4>Jenis Emosi</h4>
+            <p>Senang, sedih, takut, marah, terkejut, dan jijik adalah emosi dasar. Dalam keseharian, emosi bisa bercampur.</p>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon"><i data-feather="zap"></i></div>
+            <h4>Pemicu Emosi</h4>
+            <p>Peristiwa, orang, ingatan, atau bahkan pikiran tertentu bisa memicu emosi. Mengenali pemicu membantumu lebih siap.</p>
+          </div>
+          <div class="info-card">
+            <div class="ic-icon"><i data-feather="check-circle"></i></div>
+            <h4>Mengapa Penting?</h4>
+            <p>Mengenali emosi membantu kita merespons dengan lebih bijak, bukan bereaksi otomatis.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="edit-3"></i> Daily Mood Tracker</span>
+          <h2 class="section-title">Bagaimana perasaanmu hari ini?</h2>
+          <p class="section-desc">Catat suasana hatimu, ceritakan apa yang memengaruhinya, dan simpan sebagai kenangan refleksimu.</p>
+        </div>
+        <div style="max-width:720px;margin:0 auto;">
+          <div id="mood-form-container"></div>
+          <div id="mood-today-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="bar-chart-2"></i> Mood History</span>
+          <h2 class="section-title">Riwayat suasana hatimu</h2>
+          <p class="section-desc">Lihat pola emosimu melalui kalender, grafik, dan catatan.</p>
+        </div>
+        <div id="mood-history-container"></div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="life-buoy"></i> Emotion Guide</span>
+          <h2 class="section-title">Panduan menghadapi emosi</h2>
+          <p class="section-desc">Teknik sederhana yang bisa kamu coba saat emosi terasa berat.</p>
+        </div>
+        <div class="guide-grid">
+          <div class="guide-card">
+            <div class="gc-icon"><i data-feather="wind"></i></div>
+            <h4>Teknik Pernapasan</h4>
+            <p>Napas 4-7-8: hirup 4 detik, tahan 7 detik, buang 8 detik. Ulangi 3-4 kali.</p>
+          </div>
+          <div class="guide-card">
+            <div class="gc-icon"><i data-feather="anchor"></i></div>
+            <h4>Grounding 5-4-3-2-1</h4>
+            <p>Sebutkan 5 hal yang dilihat, 4 disentuh, 3 didengar, 2 dicium, 1 dirasa.</p>
+          </div>
+          <div class="guide-card">
+            <div class="gc-icon"><i data-feather="edit-3"></i></div>
+            <h4>Journaling</h4>
+            <p>Tuangkan pikiran dan emosi ke kertas. Bisa membantu mengurai perasaan yang kusut.</p>
+          </div>
+          <div class="guide-card">
+            <div class="gc-icon"><i data-feather="heart"></i></div>
+            <h4>Self-Compassion</h4>
+            <p>Bicara pada diri sendiri seperti kamu bicara pada sahabat yang sedang sedih.</p>
+          </div>
+          <div class="guide-card">
+            <div class="gc-icon"><i data-feather="pause-circle"></i></div>
+            <h4>Ambil Jeda</h4>
+            <p>Saat emosi meningkat, beri dirimu jeda sebelum merespons. Tidak semua harus langsung dijawab.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderMoodForm() {
+  const moods = getMoods();
+  const todayEntries = moods.filter(m => m.date === dateKey(new Date()));
+  const editing = state.moodEditId ? moods.find(m => m.id === state.moodEditId) : null;
+
+  return `
+    <div class="mood-step">
+      <div class="mood-step-title"><span class="mood-step-num">1</span> Pilih suasana hatimu${editing ? ' (edit)' : ''}</div>
+      <div class="mood-picker-grid">
+        ${MOODS.map(m => `
+          <button class="mood-btn ${editing && editing.mood === m.key ? 'active' : ''}" data-mood="${m.key}" style="--mood-color:${m.color}">
+            <span class="me">${m.emoji}</span>
+            <span class="ml">${m.label}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+    <div class="mood-step hidden" id="mood-reason-step">
+      <div class="mood-step-title"><span class="mood-step-num">2</span> Apa yang membuatmu merasa seperti ini?</div>
+      <div class="form-group">
+        <label class="form-label">Ceritakan pengalaman atau alasanmu <span class="hint">(wajib)</span></label>
+        <textarea class="form-textarea" id="mood-reason" placeholder="Ceritakan apa yang terjadi, siapa yang memengaruhi, dan apa yang kamu butuhkan..." rows="4">${editing ? escapeHtml(editing.reason || '') : ''}</textarea>
+      </div>
+      <details style="margin-top:.5rem;">
+        <summary style="cursor:pointer;font-family:var(--font-display);font-size:.85rem;font-weight:600;color:var(--accent-deep);padding:.5rem 0;">Pertanyaan pendukung (opsional)</summary>
+        <div class="form-group mt-2">
+          <label class="form-label">Apa yang terjadi hari ini?</label>
+          <input type="text" class="form-input" id="mood-what" placeholder="Contoh: presentasi di kelas" value="${editing?.extra?.what ? escapeHtml(editing.extra.what) : ''}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Apakah ada seseorang atau situasi yang memengaruhi perasaanmu?</label>
+          <input type="text" class="form-input" id="mood-who" placeholder="Contoh: teman atau dosen" value="${editing?.extra?.who ? escapeHtml(editing.extra.who) : ''}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Apa yang sebenarnya kamu butuhkan saat ini?</label>
+          <input type="text" class="form-input" id="mood-need" placeholder="Contoh: waktu sendiri atau dukungan" value="${editing?.extra?.need ? escapeHtml(editing.extra.need) : ''}">
+        </div>
+      </details>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem;">
+        <button class="btn btn-primary" id="mood-save-btn">
+          <i data-feather="save"></i> ${editing ? 'Perbarui Mood' : 'Simpan Mood Hari Ini'}
+        </button>
+        <button class="btn btn-ghost" id="mood-cancel-btn">Batal</button>
+      </div>
+    </div>
+  `;
+}
+
+function renderMoodToday() {
+  const moods = getMoods();
+  const todayEntries = moods.filter(m => m.date === dateKey(new Date())).sort((a,b) => b.time - a.time);
+  if (todayEntries.length === 0) return '';
+
+  return `
+    <div class="mood-today-card">
+      <h3 style="font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin-bottom:.85rem;">
+        <i data-feather="check-circle" style="width:16px;height:16px;color:var(--accent-deep);vertical-align:middle;"></i>
+        Catatan mood hari ini (${todayEntries.length})
+      </h3>
+      <div class="mood-entries-list">
+        ${todayEntries.map(e => {
+          const mood = getMood(e.mood);
+          return `
+            <div class="mood-entry">
+              <div class="mood-entry-emoji">${mood.emoji}</div>
+              <div class="mood-entry-body">
+                <div class="mood-entry-head">
+                  <span class="mood-entry-name">${mood.label}</span>
+                  <span class="mood-entry-time">${formatTime(e.time)}</span>
+                </div>
+                <div class="mood-entry-reason">${escapeHtml(e.reason || '(tanpa alasan tertulis)')}</div>
+                ${e.extra?.what || e.extra?.who || e.extra?.need ? `
+                  <div style="margin-top:.4rem;font-size:.78rem;color:var(--text-muted);line-height:1.5;">
+                    ${e.extra.what ? `<div>• Apa: ${escapeHtml(e.extra.what)}</div>` : ''}
+                    ${e.extra.who ? `<div>• Siapa: ${escapeHtml(e.extra.who)}</div>` : ''}
+                    ${e.extra.need ? `<div>• Butuh: ${escapeHtml(e.extra.need)}</div>` : ''}
+                  </div>
+                ` : ''}
+                <div class="mood-entry-actions">
+                  <button data-edit-mood="${e.id}"><i data-feather="edit-2"></i> Edit</button>
+                  <button data-del-mood="${e.id}"><i data-feather="trash-2"></i> Hapus</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderMoodHistory() {
+  const moods = getMoods();
+  if (moods.length === 0) {
+    return `
+      <div class="empty-state">
+        <span class="es-icon">📔</span>
+        <p>Belum ada catatan mood. Mulai catat suasana hatimu hari ini di atas.</p>
+      </div>
+    `;
+  }
+  // Calendar
+  const y = state.calendarYear;
+  const m = state.calendarMonth;
+  const firstDay = new Date(y, m, 1);
+  const lastDay = new Date(y, m + 1, 0);
+  const startDow = (firstDay.getDay() + 6) % 7; // Monday = 0
+  const daysInMonth = lastDay.getDate();
+  const monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  const dowLabels = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'];
+
+  // Entries by date
+  const byDate = {};
+  moods.forEach(e => {
+    if (!byDate[e.date]) byDate[e.date] = [];
+    byDate[e.date].push(e);
+  });
+
+  const calendarHtml = `
+    <div class="mood-calendar">
+      <div class="calendar-header">
+        <button class="calendar-nav" data-cal-prev><i data-feather="chevron-left"></i></button>
+        <div class="calendar-month">${monthNames[m]} ${y}</div>
+        <button class="calendar-nav" data-cal-next><i data-feather="chevron-right"></i></button>
+      </div>
+      <div class="calendar-grid">
+        ${dowLabels.map(d => `<div class="calendar-day-label">${d}</div>`).join('')}
+        ${Array(startDow).fill('').map(() => '<div class="calendar-day empty"></div>').join('')}
+        ${Array.from({length: daysInMonth}, (_, i) => {
+          const d = i + 1;
+          const dk = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+          const entries = byDate[dk];
+          const latest = entries ? entries.sort((a,b) => b.time - a.time)[0] : null;
+          const moodInfo = latest ? getMood(latest.mood) : null;
+          const isToday = dk === dateKey(new Date());
+          return `<button class="calendar-day ${entries ? 'has-mood' : ''} ${isToday ? 'today' : ''}"
+                          ${moodInfo ? `style="background:${moodInfo.color};"` : ''}
+                          data-cal-date="${dk}"
+                          title="${entries ? entries.length + ' catatan' : 'Tidak ada catatan'}">${d}</button>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  // Chart (14 days)
+  const days = [];
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    days.push({ key: dateKey(d), date: d });
+  }
+  const chartHtml = `
+    <div class="mood-chart-wrap">
+      <h4 style="font-family:var(--font-display);font-weight:700;font-size:.95rem;margin-bottom:.75rem;">14 Hari Terakhir</h4>
+      <div class="mood-chart">
+        ${days.map(d => {
+          const entries = byDate[d.key];
+          const latest = entries ? entries.sort((a,b) => b.time - a.time)[0] : null;
+          const mood = latest ? getMood(latest.mood) : null;
+          const heights = { 'senang':100, 'bersyukur':100, 'tenang':80, 'biasa':60, 'lelah':40, 'cemas':40, 'sedih':30, 'marah':30, 'kecewa':30 };
+          const h = latest ? (heights[latest.mood] || 50) : 0;
+          return `<div class="mood-bar-wrap" title="${d.date.toLocaleDateString('id-ID',{day:'numeric',month:'short'})}${mood ? ': ' + mood.label : ''}">
+            <div class="mood-bar" style="height:${h}%;background:${mood ? mood.color : 'transparent'}"></div>
+            <span class="mood-bar-day">${d.date.getDate()}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  // List all entries
+  const allSorted = [...moods].sort((a,b) => b.time - a.time);
+  const listHtml = `
+    <div style="margin-top:1.5rem;">
+      <h4 style="font-family:var(--font-display);font-weight:700;font-size:.95rem;margin-bottom:.75rem;">Semua Catatan (${moods.length})</h4>
+      <div class="mood-entries-list">
+        ${allSorted.map(e => {
+          const mood = getMood(e.mood);
+          return `
+            <div class="mood-entry">
+              <div class="mood-entry-emoji">${mood.emoji}</div>
+              <div class="mood-entry-body">
+                <div class="mood-entry-head">
+                  <span class="mood-entry-name">${mood.label}</span>
+                  <span class="mood-entry-time">${formatDate(e.time)} · ${formatTime(e.time)}</span>
+                </div>
+                <div class="mood-entry-reason">${escapeHtml(e.reason || '(tanpa alasan tertulis)')}</div>
+                ${e.extra?.what || e.extra?.who || e.extra?.need ? `
+                  <div style="margin-top:.4rem;font-size:.78rem;color:var(--text-muted);line-height:1.5;">
+                    ${e.extra.what ? `<div>• Apa: ${escapeHtml(e.extra.what)}</div>` : ''}
+                    ${e.extra.who ? `<div>• Siapa: ${escapeHtml(e.extra.who)}</div>` : ''}
+                    ${e.extra.need ? `<div>• Butuh: ${escapeHtml(e.extra.need)}</div>` : ''}
+                  </div>
+                ` : ''}
+                <div class="mood-entry-actions">
+                  <button data-edit-mood="${e.id}"><i data-feather="edit-2"></i> Edit</button>
+                  <button data-del-mood="${e.id}"><i data-feather="trash-2"></i> Hapus</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  // 7-day summary
+  const weekAgo = Date.now() - 7 * 86400000;
+  const monthAgo = Date.now() - 30 * 86400000;
+  const week = moods.filter(e => e.time >= weekAgo);
+  const month = moods.filter(e => e.time >= monthAgo);
+  const summaryHtml = `
+    <div class="stats-grid" style="margin-bottom:1.5rem;">
+      <div class="stat-card">
+        <div class="sc-icon"><i data-feather="calendar"></i></div>
+        <div class="sc-value">${week.length}</div>
+        <div class="sc-label">7 hari terakhir</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon"><i data-feather="calendar"></i></div>
+        <div class="sc-value">${month.length}</div>
+        <div class="sc-label">30 hari terakhir</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon"><i data-feather="bar-chart-2"></i></div>
+        <div class="sc-value">${moods.length}</div>
+        <div class="sc-label">Total catatan</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-icon"><i data-feather="smile"></i></div>
+        <div class="sc-value">${week.length ? getMood(week.sort((a,b) => b.time - a.time)[0].mood).emoji : '—'}</div>
+        <div class="sc-label">Mood terakhir</div>
+      </div>
+    </div>
+  `;
+
+  return summaryHtml + `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;" class="mood-history-grid">
+      ${calendarHtml}
+      ${chartHtml}
+    </div>
+    <style>@media (max-width:768px){.mood-history-grid{grid-template-columns:1fr !important;}}</style>
+    ${listHtml}
+  `;
+}
+
+function afterRuangEmosi() {
+  renderMoodFormArea();
+  renderMoodTodayArea();
+  renderMoodHistoryArea();
+  bindMoodHistoryEvents();
+}
+
+function renderMoodFormArea() {
+  const c = $('#mood-form-container');
+  if (!c) return;
+  c.innerHTML = renderMoodForm();
+  feather.replace();
+  bindMoodFormEvents();
+  // Show reason step if editing OR if today already has entry (let user add another)
+  const todayHasEntry = getMoods().some(m => m.date === dateKey(new Date()));
+  if (state.moodEditId || todayHasEntry) {
+    $('#mood-reason-step')?.classList.remove('hidden');
+    if (todayHasEntry && !state.moodEditId) {
+      // Pre-highlight nothing
+    }
+  }
+}
+
+function renderMoodTodayArea() {
+  const c = $('#mood-today-container');
+  if (!c) return;
+  c.innerHTML = renderMoodToday();
+  feather.replace();
+  // Bind edit/delete for today's entries
+  bindMoodEntryActions(c);
+}
+
+function renderMoodHistoryArea() {
+  const c = $('#mood-history-container');
+  if (!c) return;
+  c.innerHTML = renderMoodHistory();
+  feather.replace();
+  bindMoodEntryActions(c);
+}
+
+function bindMoodEntryActions(container) {
+  $$('[data-edit-mood]', container).forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.moodEditId = +btn.dataset.editMood;
+      state.activeMoodForm = true;
+      renderMoodFormArea();
+      $('#mood-form-container')?.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+  $$('[data-del-mood]', container).forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!confirm('Hapus catatan mood ini?')) return;
+      const id = +btn.dataset.delMood;
+      saveMoods(getMoods().filter(m => m.id !== id));
+      toast('Catatan mood dihapus');
+      renderMoodTodayArea();
+      renderMoodHistoryArea();
+    });
+  });
+}
+
+function bindMoodFormEvents() {
+  let selectedMood = state.moodEditId ? (getMoods().find(m => m.id === state.moodEditId)?.mood) : null;
+  $$('.mood-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedMood = btn.dataset.mood;
+      $$('.mood-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      $('#mood-reason-step')?.classList.remove('hidden');
+    });
+  });
+  $('#mood-cancel-btn')?.addEventListener('click', () => {
+    state.moodEditId = null;
+    state.activeMoodForm = false;
+    renderMoodFormArea();
+  });
+  $('#mood-save-btn')?.addEventListener('click', () => {
+    const reason = $('#mood-reason').value.trim();
+    if (!selectedMood) { toast('Pilih mood terlebih dahulu'); return; }
+    if (!reason) { toast('Ceritakan alasan atau pengalamanmu'); return; }
+    const extra = {
+      what: $('#mood-what')?.value.trim() || '',
+      who: $('#mood-who')?.value.trim() || '',
+      need: $('#mood-need')?.value.trim() || ''
+    };
+    let moods = getMoods();
+    if (state.moodEditId) {
+      const idx = moods.findIndex(m => m.id === state.moodEditId);
+      if (idx >= 0) {
+        moods[idx] = { ...moods[idx], mood: selectedMood, reason, extra };
+      }
+      toast('Mood diperbarui ✨');
+    } else {
+      moods.push({
+        id: Date.now() + Math.random(),
+        date: dateKey(new Date()),
+        time: Date.now(),
+        mood: selectedMood,
+        reason,
+        extra
+      });
+      toast('Mood hari ini tersimpan ✨');
+    }
+    saveMoods(moods);
+    state.moodEditId = null;
+    renderMoodFormArea();
+    renderMoodTodayArea();
+    renderMoodHistoryArea();
+  });
+}
+
+function bindMoodHistoryEvents() {
+  $$('[data-cal-prev]').forEach(b => b.addEventListener('click', () => {
+    state.calendarMonth--;
+    if (state.calendarMonth < 0) { state.calendarMonth = 11; state.calendarYear--; }
+    renderMoodHistoryArea();
+  }));
+  $$('[data-cal-next]').forEach(b => b.addEventListener('click', () => {
+    state.calendarMonth++;
+    if (state.calendarMonth > 11) { state.calendarMonth = 0; state.calendarYear++; }
+    renderMoodHistoryArea();
+  }));
+  $$('[data-cal-date]').forEach(b => b.addEventListener('click', () => {
+    const date = b.dataset.calDate;
+    const moods = getMoods().filter(m => m.date === date);
+    if (moods.length === 0) return;
+    const mood = getMood(moods.sort((a,b) => b.time - a.time)[0].mood);
+    alert(`Catatan pada ${date}:\n\n${moods.map(m => {
+      const mm = getMood(m.mood);
+      return `${mm.emoji} ${mm.label} (${formatTime(m.time)})\n${m.reason || '(tanpa alasan)'}`;
+    }).join('\n\n---\n\n')}`);
+  }));
+}
+
+/* ============================================================
+   PAGE: JURNAL
+============================================================ */
+function renderJurnal() {
+  return `
+    <div class="page-header">
+      <div class="container">
+        <div class="badge"><i data-feather="edit-3"></i> Express Yourself</div>
+        <h1 class="page-title">Jurnal</h1>
+        <p class="page-subtitle">A Safe Space to Express Yourself.</p>
+        <p class="page-desc">Ruang pribadi untuk menulis pengalaman, rasa syukur, dan refleksi harianmu.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div style="max-width:820px;margin:0 auto;">
+          <div class="journal-tabs">
+            <button class="journal-tab ${state.activeJournalTab === 'daily' ? 'active' : ''}" data-jtab="daily">
+              <i data-feather="edit-3"></i> Jurnal Harian
+            </button>
+            <button class="journal-tab ${state.activeJournalTab === 'gratitude' ? 'active' : ''}" data-jtab="gratitude">
+              <i data-feather="heart"></i> Jurnal Syukur
+            </button>
+            <button class="journal-tab ${state.activeJournalTab === 'history' ? 'active' : ''}" data-jtab="history">
+              <i data-feather="clock"></i> Riwayat
+            </button>
+          </div>
+          <div id="journal-panel"></div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderJournalPanel() {
+  if (state.activeJournalTab === 'daily') return renderDailyJournal();
+  if (state.activeJournalTab === 'gratitude') return renderGratitudeJournal();
+  return renderJournalHistory();
+}
+
+function renderDailyJournal() {
+  const editing = state.journalEditId ? storage.get('journals_v2', []).find(j => j.id === state.journalEditId) : null;
+  return `
+    <div class="card">
+      <h3 style="font-family:var(--font-display);font-size:1.1rem;margin-bottom:.5rem;">
+        ${editing ? 'Edit Catatan' : 'Tulis Catatan Baru'}
+      </h3>
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:1rem;">
+        ${editing ? 'Perbarui catatanmu.' : 'Apa yang ingin kamu tuliskan hari ini?'}
+      </p>
+      <div class="prompt-chips">
+        ${JOURNAL_PROMPTS.map(p => `<button class="prompt-chip" data-prompt="${escapeHtml(p)}">💡 ${escapeHtml(p)}</button>`).join('')}
+      </div>
+      <div class="form-group">
+        <label class="form-label">Judul catatan</label>
+        <input type="text" class="form-input" id="journal-title" placeholder="Beri judul catatanmu..." value="${editing ? escapeHtml(editing.title) : ''}" maxlength="80">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Isi catatan</label>
+        <textarea class="form-textarea" id="journal-text" placeholder="Tuangkan pikiran, perasaan, dan pengalamanmu..." rows="6">${editing ? escapeHtml(editing.text) : ''}</textarea>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+        <button class="btn btn-primary" id="journal-save-btn">
+          <i data-feather="save"></i> ${editing ? 'Perbarui' : 'Simpan Catatan'}
+        </button>
+        ${editing ? `<button class="btn btn-ghost" id="journal-cancel-btn">Batal</button>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function renderGratitudeJournal() {
+  const today = dateKey(new Date());
+  const gratitude = storage.get('gratitude_v2', []).find(g => g.date === today);
+  const items = gratitude?.items || ['','',''];
+  const savedGratitude = storage.get('gratitude_v2', []).filter(g => g.date !== today).sort((a,b) => b.date.localeCompare(a.date));
+  return `
+    <div class="card">
+      <h3 style="font-family:var(--font-display);font-size:1.1rem;margin-bottom:.5rem;">Tiga Hal yang Aku Syukuri</h3>
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:1rem;">${formatDate(Date.now())}</p>
+      ${items.map((item, i) => `
+        <div class="gratitude-item">
+          <div class="gratitude-num">${i + 1}</div>
+          <input type="text" data-grat-idx="${i}" placeholder="Aku bersyukur karena..." value="${escapeHtml(item)}" maxlength="200">
+        </div>
+      `).join('')}
+      <button class="btn btn-primary mt-2" id="gratitude-save-btn" style="width:100%;">
+        <i data-feather="save"></i> Simpan Rasa Syukur
+      </button>
+    </div>
+    ${savedGratitude.length > 0 ? `
+      <div class="mt-3">
+        <h4 style="font-family:var(--font-display);font-weight:700;font-size:.95rem;margin-bottom:.75rem;">Riwayat Syukur</h4>
+        ${savedGratitude.map(g => `
+          <div class="journal-card">
+            <div class="journal-card-date"><i data-feather="calendar"></i> ${formatDate(new Date(g.date + 'T12:00:00').getTime())}</div>
+            <ul style="padding-left:1.2rem;list-style:disc;color:var(--text-secondary);font-size:.88rem;line-height:1.7;">
+              ${g.items.filter(Boolean).map(it => `<li>${escapeHtml(it)}</li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+  `;
+}
+
+function renderJournalHistory() {
+  let journals = storage.get('journals_v2', []);
+  if (state.journalSearch) {
+    const q = state.journalSearch.toLowerCase();
+    journals = journals.filter(j => j.title.toLowerCase().includes(q) || j.text.toLowerCase().includes(q));
+  }
+  if (state.journalFilter) {
+    const since = Date.now() - parseInt(state.journalFilter) * 86400000;
+    journals = journals.filter(j => j.date >= since);
+  }
+  journals.sort((a,b) => b.date - a.date);
+
+  return `
+    <div class="card mb-2">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:.5rem;align-items:center;">
+        <input type="text" class="form-input" id="journal-search" placeholder="Cari catatan..." value="${escapeHtml(state.journalSearch)}">
+        <select class="form-select" id="journal-filter" style="width:auto;min-width:150px;">
+          <option value="">Semua tanggal</option>
+          <option value="7" ${state.journalFilter === '7' ? 'selected' : ''}>7 hari terakhir</option>
+          <option value="30" ${state.journalFilter === '30' ? 'selected' : ''}>30 hari terakhir</option>
+          <option value="90" ${state.journalFilter === '90' ? 'selected' : ''}>90 hari terakhir</option>
+        </select>
+      </div>
+    </div>
+    ${journals.length === 0 ? `
+      <div class="empty-state">
+        <span class="es-icon">📖</span>
+        <p>${state.journalSearch || state.journalFilter ? 'Tidak ada catatan yang cocok.' : 'Belum ada catatan. Mulai tulis yang pertama di tab Jurnal Harian.'}</p>
+      </div>
+    ` : `
+      <div class="journal-list">
+        ${journals.map(j => `
+          <div class="journal-card">
+            <div class="journal-card-head">
+              <h4>${escapeHtml(j.title)}</h4>
+            </div>
+            <div class="journal-card-date"><i data-feather="calendar"></i> ${formatDate(j.date)} · ${formatTime(j.date)}</div>
+            <div class="journal-card-text">${escapeHtml(j.text)}</div>
+            <div class="journal-card-actions">
+              <button data-edit-journal="${j.id}"><i data-feather="edit-2"></i> Edit</button>
+              <button class="del" data-del-journal="${j.id}"><i data-feather="trash-2"></i> Hapus</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+  `;
+}
+
+function afterJurnal() {
+  renderJournalPanelArea();
+  $$('.journal-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      state.activeJournalTab = tab.dataset.jtab;
+      state.journalEditId = null;
+      $$('.journal-tab').forEach(t => t.classList.toggle('active', t === tab));
+      renderJournalPanelArea();
+    });
+  });
+}
+
+function renderJournalPanelArea() {
+  const c = $('#journal-panel');
+  if (!c) return;
+  c.innerHTML = renderJournalPanel();
+  feather.replace();
+  bindJournalEvents();
+}
+
+function bindJournalEvents() {
+  // Daily
+  $$('.prompt-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const ta = $('#journal-text');
+      if (ta) {
+        ta.value = (ta.value + (ta.value ? '\n\n' : '') + chip.dataset.prompt + '\n');
+        ta.focus();
+      }
+    });
+  });
+  $('#journal-save-btn')?.addEventListener('click', () => {
+    const title = $('#journal-title').value.trim();
+    const text = $('#journal-text').value.trim();
+    if (!title) { toast('Judul catatan wajib diisi'); return; }
+    if (!text) { toast('Isi catatan wajib diisi'); return; }
+    let journals = storage.get('journals_v2', []);
+    if (state.journalEditId) {
+      const idx = journals.findIndex(j => j.id === state.journalEditId);
+      if (idx >= 0) journals[idx] = { ...journals[idx], title, text };
+      toast('Catatan diperbarui ✨');
+    } else {
+      journals.unshift({ id: Date.now(), title, text, date: Date.now(), type:'daily' });
+      toast('Catatan tersimpan ✍️');
+    }
+    storage.set('journals_v2', journals);
+    state.journalEditId = null;
+    renderJournalPanelArea();
+  });
+  $('#journal-cancel-btn')?.addEventListener('click', () => {
+    state.journalEditId = null;
+    renderJournalPanelArea();
+  });
+  // Gratitude
+  $('#gratitude-save-btn')?.addEventListener('click', () => {
+    const items = [];
+    $$('[data-grat-idx]').forEach(inp => items.push(inp.value.trim()));
+    if (!items.some(Boolean)) { toast('Isi minimal satu hal yang disyukuri'); return; }
+    let gratitude = storage.get('gratitude_v2', []);
+    const today = dateKey(new Date());
+    const idx = gratitude.findIndex(g => g.date === today);
+    if (idx >= 0) gratitude[idx] = { ...gratitude[idx], items };
+    else gratitude.push({ id: Date.now(), date: today, items });
+    storage.set('gratitude_v2', gratitude);
+    toast('Rasa syukur tersimpan 💗');
+    renderJournalPanelArea();
+  });
+  // History
+  $('#journal-search')?.addEventListener('input', (e) => {
+    state.journalSearch = e.target.value;
+    const c = $('#journal-panel');
+    c.innerHTML = renderJournalHistory();
+    feather.replace();
+    bindJournalEvents();
+    // refocus search
+    setTimeout(() => {
+      const s = $('#journal-search');
+      if (s) { s.focus(); s.setSelectionRange(s.value.length, s.value.length); }
+    }, 0);
+  });
+  $('#journal-filter')?.addEventListener('change', (e) => {
+    state.journalFilter = e.target.value;
+    const c = $('#journal-panel');
+    c.innerHTML = renderJournalHistory();
+    feather.replace();
+    bindJournalEvents();
+  });
+  $$('[data-edit-journal]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.journalEditId = +btn.dataset.editJournal;
+      state.activeJournalTab = 'daily';
+      $$('.journal-tab').forEach(t => t.classList.toggle('active', t.dataset.jtab === 'daily'));
+      renderJournalPanelArea();
+    });
+  });
+  $$('[data-del-journal]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!confirm('Hapus catatan ini?')) return;
+      const id = +btn.dataset.delJournal;
+      storage.set('journals_v2', storage.get('journals_v2', []).filter(j => j.id !== id));
+      toast('Catatan dihapus');
+      renderJournalPanelArea();
+    });
+  });
+}
+
+/* ============================================================
+   PAGE: TUMBUH
+============================================================ */
+function renderTumbuh() {
+  const goals = storage.get('goals_v2', []);
+  const challengesDone = storage.get('challenges_v2', []);
+  const goalsDone = goals.filter(g => g.done).length;
+  const goalsPct = goals.length ? Math.round((goalsDone / goals.length) * 100) : 0;
+
+  return `
+    <div class="page-header">
+      <div class="container">
+        <div class="badge"><i data-feather="target"></i> Grow Yourself</div>
+        <h1 class="page-title">Tumbuh</h1>
+        <p class="page-subtitle">Small Steps, Meaningful Growth.</p>
+        <p class="page-desc">Tetapkan tujuan, ikuti tantangan kecil, dan lacak perkembangan dirimu — satu langkah setiap hari.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="sc-icon"><i data-feather="target"></i></div>
+            <div class="sc-value">${goalsDone}</div>
+            <div class="sc-label">Tujuan tercapai</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-icon"><i data-feather="check-circle"></i></div>
+            <div class="sc-value">${goals.length}</div>
+            <div class="sc-label">Total tujuan</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-icon"><i data-feather="award"></i></div>
+            <div class="sc-value">${challengesDone.length}</div>
+            <div class="sc-label">Tantangan selesai</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-icon"><i data-feather="trending-up"></i></div>
+            <div class="sc-value">${goalsPct}%</div>
+            <div class="sc-label">Progres tujuan</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:2rem;">
+          <h3 style="font-family:var(--font-display);font-size:1rem;margin-bottom:.35rem;">Progres Tujuanmu</h3>
+          <div class="progress-bar-lg"><div class="progress-bar-lg-fill" style="width:${goalsPct}%"></div></div>
+          <p style="font-size:.82rem;color:var(--text-muted);margin-top:.35rem;font-weight:600;">${goalsDone} dari ${goals.length} tujuan telah kamu capai. Terus melangkah! 🌱</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="target"></i> Goal Setting</span>
+          <h2 class="section-title">Tujuan Pribadimu</h2>
+          <p class="section-desc">Tetapkan tujuan kecil yang terukur. Rayakan setiap pencapaian.</p>
+        </div>
+        <div style="max-width:820px;margin:0 auto;">
+          <div id="goals-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label"><i data-feather="award"></i> Self Growth Challenge</span>
+          <h2 class="section-title">Tantangan Pengembangan Diri</h2>
+          <p class="section-desc">Pilih tantangan kecil dari berbagai kategori dan tandai saat selesai.</p>
+        </div>
+        <div style="max-width:820px;margin:0 auto;" id="challenges-container"></div>
+      </div>
+    </section>
+  `;
+}
+
+function renderGoalsPanel() {
+  const editing = state.goalEditId ? storage.get('goals_v2', []).find(g => g.id === state.goalEditId) : null;
+  const goals = storage.get('goals_v2', []).sort((a,b) => b.createdAt - a.createdAt);
+
+  return `
+    <div class="card mb-2">
+      <h3 style="font-family:var(--font-display);font-size:1.05rem;margin-bottom:1rem;">
+        ${editing ? 'Edit Tujuan' : 'Tambah Tujuan Baru'}
+      </h3>
+      <div class="form-group">
+        <label class="form-label">Nama tujuan</label>
+        <input type="text" class="form-input" id="goal-name" placeholder="Contoh: Menyelesaikan tugas akhir" value="${editing ? escapeHtml(editing.name) : ''}" maxlength="80">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Deskripsi singkat <span class="hint">(opsional)</span></label>
+        <textarea class="form-textarea" id="goal-desc" placeholder="Ceritakan tujuanmu secara singkat..." rows="2">${editing ? escapeHtml(editing.desc) : ''}</textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+        <div class="form-group">
+          <label class="form-label">Kategori</label>
+          <select class="form-select" id="goal-category">
+            ${GOAL_CATEGORIES.map(c => `<option value="${c}" ${editing?.category === c ? 'selected' : ''}>${c}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Target tanggal <span class="hint">(opsional)</span></label>
+          <input type="date" class="form-input" id="goal-due" value="${editing?.dueDate || ''}">
+        </div>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+        <button class="btn btn-primary" id="goal-save-btn">
+          <i data-feather="plus"></i> ${editing ? 'Perbarui' : 'Tambah Tujuan'}
+        </button>
+        ${editing ? `<button class="btn btn-ghost" id="goal-cancel-btn">Batal</button>` : ''}
+      </div>
+    </div>
+    ${goals.length === 0 ? `
+      <div class="empty-state">
+        <span class="es-icon">🎯</span>
+        <p>Belum ada tujuan. Tambahkan satu langkah kecil hari ini.</p>
+      </div>
+    ` : `
+      <div style="display:flex;flex-direction:column;gap:.7rem;">
+        ${goals.map(g => `
+          <div class="goal-item ${g.done ? 'done' : ''}">
+            <input type="checkbox" data-goal-id="${g.id}" ${g.done ? 'checked' : ''}>
+            <div class="goal-body">
+              <h4>${escapeHtml(g.name)}</h4>
+              <div class="goal-meta">
+                <span class="goal-badge">${escapeHtml(g.category)}</span>
+                ${g.dueDate ? `<span>📅 ${g.dueDate}</span>` : ''}
+              </div>
+              ${g.desc ? `<p>${escapeHtml(g.desc)}</p>` : ''}
+            </div>
+            <div class="goal-actions">
+              <button data-edit-goal="${g.id}" title="Edit"><i data-feather="edit-2"></i></button>
+              <button class="del" data-del-goal="${g.id}" title="Hapus"><i data-feather="trash-2"></i></button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `}
+  `;
+}
+
+function renderChallengesPanel() {
+  const doneIds = new Set(storage.get('challenges_v2', []));
+  const byCategory = {};
+  CHALLENGES.forEach(c => {
+    if (!byCategory[c.category]) byCategory[c.category] = [];
+    byCategory[c.category].push(c);
+  });
+  return Object.entries(byCategory).map(([cat, list]) => `
+    <div class="challenge-section">
+      <h4 class="challenge-cat-title">
+        <i data-feather="${CHALLENGE_CATEGORIES[cat]?.icon || 'star'}"></i>
+        ${cat}
+      </h4>
+      <div class="challenge-list">
+        ${list.map(c => `
+          <div class="challenge-item ${doneIds.has(c.id) ? 'done' : ''}">
+            <input type="checkbox" data-challenge-id="${c.id}" ${doneIds.has(c.id) ? 'checked' : ''}>
+            <label>${escapeHtml(c.text)}</label>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function afterTumbuh() {
+  renderGoalsPanelArea();
+  const cc = $('#challenges-container');
+  if (cc) {
+    cc.innerHTML = renderChallengesPanel();
+    feather.replace();
+    bindChallengeEvents();
+  }
+}
+
+function renderGoalsPanelArea() {
+  const c = $('#goals-container');
+  if (!c) return;
+  c.innerHTML = renderGoalsPanel();
+  feather.replace();
+  bindGoalEvents();
+}
+
+function bindGoalEvents() {
+  $('#goal-save-btn')?.addEventListener('click', () => {
+    const name = $('#goal-name').value.trim();
+    const desc = $('#goal-desc').value.trim();
+    const category = $('#goal-category').value;
+    const dueDate = $('#goal-due').value || null;
+    if (!name) { toast('Nama tujuan wajib diisi'); return; }
+    let goals = storage.get('goals_v2', []);
+    if (state.goalEditId) {
+      const idx = goals.findIndex(g => g.id === state.goalEditId);
+      if (idx >= 0) goals[idx] = { ...goals[idx], name, desc, category, dueDate };
+      toast('Tujuan diperbarui ✨');
+    } else {
+      goals.push({ id: Date.now(), name, desc, category, dueDate, done: false, createdAt: Date.now() });
+      toast('Tujuan ditambahkan 🎯');
+    }
+    storage.set('goals_v2', goals);
+    state.goalEditId = null;
+    renderGoalsPanelArea();
+    updateStatsAfterGoalChange();
+  });
+  $('#goal-cancel-btn')?.addEventListener('click', () => {
+    state.goalEditId = null;
+    renderGoalsPanelArea();
+  });
+  $$('[data-goal-id]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const goals = storage.get('goals_v2', []);
+      const g = goals.find(x => x.id === +cb.dataset.goalId);
+      if (g) {
+        g.done = cb.checked;
+        if (g.done) toast('Selamat! Tujuan tercapai 🎉');
+      }
+      storage.set('goals_v2', goals);
+      renderGoalsPanelArea();
+      updateStatsAfterGoalChange();
+    });
+  });
+  $$('[data-edit-goal]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.goalEditId = +btn.dataset.editGoal;
+      renderGoalsPanelArea();
+    });
+  });
+  $$('[data-del-goal]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!confirm('Hapus tujuan ini?')) return;
+      storage.set('goals_v2', storage.get('goals_v2', []).filter(g => g.id !== +btn.dataset.delGoal));
+      toast('Tujuan dihapus');
+      renderGoalsPanelArea();
+      updateStatsAfterGoalChange();
+    });
+  });
+}
+
+function bindChallengeEvents() {
+  $$('[data-challenge-id]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const id = cb.dataset.challengeId;
+      let done = new Set(storage.get('challenges_v2', []));
+      if (cb.checked) { done.add(id); toast('Tantangan selesai! 🌟'); }
+      else { done.delete(id); }
+      storage.set('challenges_v2', [...done]);
+      cb.closest('.challenge-item').classList.toggle('done', cb.checked);
+      updateStatsAfterGoalChange();
+    });
+  });
+}
+
+function updateStatsAfterGoalChange() {
+  const goals = storage.get('goals_v2', []);
+  const challengesDone = storage.get('challenges_v2', []);
+  const goalsDone = goals.filter(g => g.done).length;
+  const goalsPct = goals.length ? Math.round((goalsDone / goals.length) * 100) : 0;
+  const stats = $$('.stat-card .sc-value');
+  if (stats[0]) stats[0].textContent = goalsDone;
+  if (stats[1]) stats[1].textContent = goals.length;
+  if (stats[2]) stats[2].textContent = challengesDone.length;
+  if (stats[3]) stats[3].textContent = goalsPct + '%';
+  const bar = $('.progress-bar-lg-fill');
+  if (bar) bar.style.width = goalsPct + '%';
+  const txt = $('.progress-bar-lg-fill')?.closest('.card')?.querySelector('p');
+  if (txt) txt.textContent = `${goalsDone} dari ${goals.length} tujuan telah kamu capai. Terus melangkah! 🌱`;
+}
+
+/* ============================================================
+   PAGE: PLAY & LEARN
+============================================================ */
+function renderPlayLearn() {
+  return `
+    <div class="page-header">
+      <div class="container">
+        <div class="badge"><i data-feather="award"></i> Play & Learn</div>
+        <h1 class="page-title">Play & Learn</h1>
+        <p class="page-subtitle">Learn About Yourself Through Play.</p>
+        <p class="page-desc">Belajar tentang diri sendiri melalui permainan interaktif yang menyenangkan.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div style="max-width:820px;margin:0 auto;">
+          <div class="game-tabs">
+            <button class="game-tab ${state.activeGameTab === 'memory' ? 'active' : ''}" data-gtab="memory">
+              <i data-feather="grid"></i> Memory of Me
+            </button>
+            <button class="game-tab ${state.activeGameTab === 'emotion' ? 'active' : ''}" data-gtab="emotion">
+              <i data-feather="smile"></i> Emotion Quiz
+            </button>
+            <button class="game-tab ${state.activeGameTab === 'word' ? 'active' : ''}" data-gtab="word">
+              <i data-feather="heart"></i> Word of Me
+            </button>
+          </div>
+          <div id="game-panel"></div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderGamePanel() {
+  if (state.activeGameTab === 'memory') return renderMemoryGame();
+  if (state.activeGameTab === 'emotion') return renderEmotionQuiz();
+  return renderWordOfMe();
+}
+
+function renderMemoryGame() {
+  const best = storage.get('gameBest', { easy:0, medium:0, hard:0 });
+  if (!state.memoryState) {
+    return `
+      <div class="card">
+        <h3 style="font-family:var(--font-display);font-size:1.1rem;margin-bottom:.5rem;">Memory of Me</h3>
+        <p style="color:var(--text-secondary);font-size:.88rem;margin-bottom:1.25rem;line-height:1.7;">
+          Temukan pasangan kartu yang cocok. Latih fokus dan ingatanmu sambil mengenal kata-kata positif tentang diri.
+        </p>
+        <div class="memory-diff-select">
+          <button class="memory-diff-card" data-mem-diff="easy">
+            <span class="md-title">🌸 Mudah</span>
+            <span class="md-meta">6 pasang · grid 3×4</span>
+            <span class="md-best">${best.easy ? 'Rekor: ' + best.easy + ' pts' : 'Belum ada rekor'}</span>
+          </button>
+          <button class="memory-diff-card" data-mem-diff="medium">
+            <span class="md-title">☁️ Sedang</span>
+            <span class="md-meta">8 pasang · grid 4×4</span>
+            <span class="md-best">${best.medium ? 'Rekor: ' + best.medium + ' pts' : 'Belum ada rekor'}</span>
+          </button>
+          <button class="memory-diff-card" data-mem-diff="hard">
+            <span class="md-title">🔥 Sulit</span>
+            <span class="md-meta">10 pasang · grid 5×4</span>
+            <span class="md-best">${best.hard ? 'Rekor: ' + best.hard + ' pts' : 'Belum ada rekor'}</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+  const g = state.memoryState;
+  return `
+    <div class="card">
+      <div style="display:flex;gap:.35rem;margin-bottom:1rem;flex-wrap:wrap;">
+        ${['easy','medium','hard'].map(k => `
+          <button class="game-tab ${g.difficulty === k ? 'active' : ''}" data-mem-diff="${k}" style="flex:1;min-width:80px;justify-content:center;">
+            ${k === 'easy' ? 'Mudah' : k === 'medium' ? 'Sedang' : 'Sulit'}
+          </button>
+        `).join('')}
+      </div>
+      <div class="memory-stats">
+        <div class="memory-stat"><div class="ms-label">Waktu</div><div class="ms-val" id="mem-time">${formatTimer(g.seconds)}</div></div>
+        <div class="memory-stat"><div class="ms-label">Langkah</div><div class="ms-val" id="mem-moves">${g.moves}</div></div>
+        <div class="memory-stat"><div class="ms-label">Pasangan</div><div class="ms-val" id="mem-pairs">${g.matched.length / 2}/${g.cfg.pairs}</div></div>
+      </div>
+      <div class="memory-grid" id="memory-grid" style="--cols:${g.cfg.cols}">
+        ${g.deck.map((word, i) => `
+          <button class="memory-card ${g.flipped.includes(i) || g.matched.includes(i) ? 'flipped' : ''} ${g.matched.includes(i) ? 'matched' : ''}" data-mem-i="${i}">
+            <span class="memory-card-inner">
+              <span class="memory-card-front">✦</span>
+              <span class="memory-card-back">${escapeHtml(word)}</span>
+            </span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+    ${g.result ? renderMemoryResult(g.result) : ''}
+  `;
+}
+
+function renderMemoryResult(result) {
+  return `
+    <div class="game-result">
+      <div class="game-result-emoji">🎉</div>
+      <h3>Selesai!</h3>
+      <div class="game-result-stats">
+        <div class="game-result-stat"><div class="gv">${formatTimer(result.seconds)}</div><div class="gl">Waktu</div></div>
+        <div class="game-result-stat"><div class="gv">${result.moves}</div><div class="gl">Langkah</div></div>
+        <div class="game-result-stat"><div class="gv">${result.maxCombo}</div><div class="gl">Combo</div></div>
+        <div class="game-result-stat"><div class="gv">${result.score}</div><div class="gl">Skor</div></div>
+      </div>
+      ${result.isRecord ? '<p class="game-record-msg">🏆 Rekor baru untuk level ini!</p>' : ''}
+      <div style="display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-secondary btn-sm" id="mem-back-btn">Ganti Level</button>
+        <button class="btn btn-primary btn-sm" id="mem-again-btn">Main Lagi</button>
+      </div>
+    </div>
+  `;
+}
+
+const MEMORY_CONFIG = {
+  easy: { cols:3, pairs:6, words:['Jujur','Berani','Sabar','Kreatif','Empatik','Peduli'] },
+  medium: { cols:4, pairs:8, words:['Jujur','Berani','Sabar','Kreatif','Empatik','Peduli','Fokus','Tenang'] },
+  hard: { cols:5, pairs:10, words:['Jujur','Berani','Sabar','Kreatif','Empatik','Peduli','Fokus','Tenang','Setia','Optimis'] }
+};
+
+function startMemoryGame(diff) {
+  if (state.memoryTimer) clearInterval(state.memoryTimer);
+  const cfg = MEMORY_CONFIG[diff];
+  const deck = [...cfg.words, ...cfg.words].sort(() => Math.random() - 0.5);
+  state.memoryState = {
+    difficulty: diff, cfg, deck, flipped: [], matched: [],
+    moves: 0, seconds: 0, combo: 0, maxCombo: 0, lock: false, result: null
+  };
+  renderGamePanelArea();
+  state.memoryTimer = setInterval(() => {
+    if (!state.memoryState || state.memoryState.result) return;
+    state.memoryState.seconds++;
+    const el = $('#mem-time');
+    if (el) el.textContent = formatTimer(state.memoryState.seconds);
+  }, 1000);
+}
+
+function flipMemoryCard(i) {
+  const g = state.memoryState;
+  if (!g || g.lock || g.result) return;
+  if (g.flipped.includes(i) || g.matched.includes(i)) return;
+  g.flipped.push(i);
+  renderGamePanelArea();
+  if (g.flipped.length === 2) {
+    g.moves++;
+    const [a, b] = g.flipped;
+    if (g.deck[a] === g.deck[b]) {
+      g.matched.push(a, b);
+      g.combo++;
+      g.maxCombo = Math.max(g.maxCombo, g.combo);
+      g.flipped = [];
+      renderGamePanelArea();
+      if (g.matched.length === g.cfg.pairs * 2) {
+        if (state.memoryTimer) clearInterval(state.memoryTimer);
+        const optimal = g.cfg.pairs;
+        const score = Math.max(50, 1000 - g.seconds * 3 - Math.max(0, g.moves - optimal) * 20 + g.maxCombo * 15);
+        const best = storage.get('gameBest', { easy:0, medium:0, hard:0 });
+        const isRecord = score > (best[g.difficulty] || 0);
+        if (isRecord) { best[g.difficulty] = score; storage.set('gameBest', best); }
+        g.result = { seconds: g.seconds, moves: g.moves, maxCombo: g.maxCombo, score, isRecord };
+        renderGamePanelArea();
+      }
+    } else {
+      g.combo = 0;
+      g.lock = true;
+      setTimeout(() => {
+        if (!state.memoryState) return;
+        g.flipped = [];
+        g.lock = false;
+        renderGamePanelArea();
+      }, 700);
+    }
+  }
+}
+
+function renderEmotionQuiz() {
+  if (state.emotionQuizIndex >= EMOTION_QUIZ.length) {
+    return `
+      <div class="card">
+        <div class="game-result">
+          <div class="game-result-emoji">🌟</div>
+          <h3>Kuis Emosi Selesai!</h3>
+          <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:1rem;">
+            Skor kamu: <strong>${state.emotionQuizScore} / ${EMOTION_QUIZ.length}</strong>
+          </p>
+          <p style="font-size:.88rem;color:var(--text-secondary);margin-bottom:1.5rem;line-height:1.7;">
+            ${state.emotionQuizScore >= EMOTION_QUIZ.length * 0.7 ? 'Luar biasa! Kamu sangat peka terhadap emosi. 💗' : 'Bagus! Terus latih kepekaan emosimu setiap hari. 🌱'}
+          </p>
+          <button class="btn btn-primary" id="eq-restart-btn"><i data-feather="refresh-cw"></i> Main Lagi</button>
+        </div>
+      </div>
+    `;
+  }
+  const q = EMOTION_QUIZ[state.emotionQuizIndex];
+  return `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;font-size:.78rem;color:var(--text-muted);font-weight:700;font-family:var(--font-display);margin-bottom:.75rem;">
+        <span>Soal ${state.emotionQuizIndex + 1} dari ${EMOTION_QUIZ.length}</span>
+        <span>Skor: ${state.emotionQuizScore}</span>
+      </div>
+      <div class="eq-question">
+        <div class="eq-situation">${q.situation}</div>
+        <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:.75rem;font-weight:600;">Emosi apa yang paling mungkin muncul?</p>
+        <div class="eq-options" id="eq-options">
+          ${q.options.map(opt => `<button class="eq-option" data-eq-opt="${opt}">${getMood(opt.toLowerCase()).emoji || ''} ${opt}</button>`).join('')}
+        </div>
+        <div id="eq-feedback"></div>
+      </div>
+    </div>
+  `;
+}
+
+function renderWordOfMe() {
+  const savedWord = storage.get('wordOfMe_v2', null);
+  return `
+    <div class="card">
+      <h3 style="font-family:var(--font-display);font-size:1.1rem;margin-bottom:.5rem;">Word of Me</h3>
+      <p style="color:var(--text-secondary);font-size:.88rem;margin-bottom:1.25rem;line-height:1.7;">
+        Pilih hingga 3 kata yang menggambarkan nilai atau karakter yang ingin kamu kembangkan.
+      </p>
+      <div class="word-count" id="word-count">${state.wordSelections.length}/3 dipilih</div>
+      <div class="word-grid">
+        ${WORD_OPTIONS.map(w => `
+          <button class="word-btn ${state.wordSelections.includes(w) ? 'selected' : ''}" data-word="${w}">${w}</button>
+        `).join('')}
+      </div>
+      <button class="btn btn-primary" id="word-reflect-btn" ${state.wordSelections.length === 0 ? 'disabled' : ''} style="width:100%;">
+        <i data-feather="heart"></i> Lihat Refleksi
+      </button>
+      ${savedWord ? `
+        <div class="mt-3" style="padding:1rem;background:var(--lavender-soft);border-radius:var(--radius-md);">
+          <p style="font-size:.82rem;color:var(--text-muted);font-weight:600;margin-bottom:.35rem;">Refleksi terakhir (${formatDate(savedWord.timestamp)}):</p>
+          <p style="font-size:.88rem;font-family:var(--font-display);font-weight:600;color:var(--accent-deep);">${savedWord.words.join(' · ')}</p>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function afterPlayLearn() {
+  renderGamePanelArea();
+  $$('.game-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      state.activeGameTab = tab.dataset.gtab;
+      state.emotionQuizIndex = 0;
+      state.emotionQuizScore = 0;
+      state.wordSelections = [];
+      if (state.memoryTimer) { clearInterval(state.memoryTimer); state.memoryTimer = null; }
+      state.memoryState = null;
+      $$('.game-tab').forEach(t => t.classList.toggle('active', t === tab));
+      renderGamePanelArea();
+    });
+  });
+}
+
+function renderGamePanelArea() {
+  const c = $('#game-panel');
+  if (!c) return;
+  c.innerHTML = renderGamePanel();
+  feather.replace();
+  // Memory diff cards
+  $$('[data-mem-diff]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const diff = btn.dataset.memDiff;
+      if (state.memoryState && state.memoryState.difficulty === diff && !state.memoryState.result) return;
+      startMemoryGame(diff);
+    });
+  });
+  // Memory cards
+  $$('[data-mem-i]').forEach(btn => {
+    btn.addEventListener('click', () => flipMemoryCard(+btn.dataset.memI));
+  });
+  $('#mem-back-btn')?.addEventListener('click', () => {
+    if (state.memoryTimer) clearInterval(state.memoryTimer);
+    state.memoryState = null;
+    renderGamePanelArea();
+  });
+  $('#mem-again-btn')?.addEventListener('click', () => {
+    const diff = state.memoryState?.difficulty || 'easy';
+    startMemoryGame(diff);
+  });
+  // Emotion quiz
+  $$('[data-eq-opt]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const q = EMOTION_QUIZ[state.emotionQuizIndex];
+      const chosen = btn.dataset.eqOpt;
+      if (chosen === q.correct) {
+        state.emotionQuizScore++;
+        btn.classList.add('correct');
+      } else {
+        btn.classList.add('wrong');
+        $$('[data-eq-opt]').forEach(b => {
+          if (b.dataset.eqOpt === q.correct) b.classList.add('correct');
+        });
+      }
+      $$('[data-eq-opt]').forEach(b => b.disabled = true);
+      const fb = $('#eq-feedback');
+      if (fb) {
+        fb.innerHTML = `
+          <div class="eq-feedback">
+            <strong>${chosen === q.correct ? '✅ Benar!' : '💡 Jawaban yang tepat: ' + q.correct}</strong><br>
+            ${q.feedback}
+          </div>
+          <button class="btn btn-primary mt-2" id="eq-next-btn" style="width:100%;">
+            ${state.emotionQuizIndex + 1 < EMOTION_QUIZ.length ? 'Soal Berikutnya' : 'Lihat Hasil'}
+          </button>
+        `;
+        $('#eq-next-btn')?.addEventListener('click', () => {
+          state.emotionQuizIndex++;
+          renderGamePanelArea();
+        });
+      }
+    });
+  });
+  $('#eq-restart-btn')?.addEventListener('click', () => {
+    state.emotionQuizIndex = 0;
+    state.emotionQuizScore = 0;
+    renderGamePanelArea();
+  });
+  // Word of me
+  $$('[data-word]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const w = btn.dataset.word;
+      if (state.wordSelections.includes(w)) {
+        state.wordSelections = state.wordSelections.filter(x => x !== w);
+      } else {
+        if (state.wordSelections.length >= 3) { toast('Maksimal 3 kata'); return; }
+        state.wordSelections.push(w);
+      }
+      renderGamePanelArea();
+    });
+  });
+  $('#word-reflect-btn')?.addEventListener('click', () => {
+    if (state.wordSelections.length === 0) return;
+    const c = $('#game-panel');
+    const reflections = state.wordSelections.map(w => ({ word: w, q: WORD_REFLECTIONS[w] || 'Apa makna kata ini bagimu?' }));
+    c.innerHTML = `
+      <div class="card">
+        <h3 style="font-family:var(--font-display);font-size:1.1rem;margin-bottom:.85rem;">Refleksi Kata Pilihanmu</h3>
+        <div class="word-reflection-list">
+          ${reflections.map(r => `
+            <div class="word-reflection-item">
+              <div class="wr-word">${escapeHtml(r.word)}</div>
+              <p style="font-size:.88rem;color:var(--text-secondary);line-height:1.65;">${escapeHtml(r.q)}</p>
+            </div>
+          `).join('')}
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:1.25rem;flex-wrap:wrap;">
+          <button class="btn btn-primary" id="word-save-btn"><i data-feather="save"></i> Simpan Pilihan</button>
+          <button class="btn btn-ghost" id="word-back-btn">Kembali</button>
+        </div>
+      </div>
+    `;
+    feather.replace();
+    $('#word-save-btn')?.addEventListener('click', () => {
+      storage.set('wordOfMe_v2', { words: [...state.wordSelections], timestamp: Date.now() });
+      toast('Refleksi tersimpan 💗');
+      state.wordSelections = [];
+      renderGamePanelArea();
+    });
+    $('#word-back-btn')?.addEventListener('click', () => renderGamePanelArea());
+  });
+}
+
+/* ============================================================
+   PAGE: INSIGHT
+============================================================ */
+function renderInsight() {
+  if (state.currentArticle) {
+    const a = ARTICLES.find(x => x.slug === state.currentArticle);
+    if (!a) { state.currentArticle = null; }
+    else return renderArticleDetail(a);
+  }
+  return `
+    <div class="page-header">
+      <div class="container">
+        <div class="badge"><i data-feather="book-open"></i> Learn & Reflect</div>
+        <h1 class="page-title">Insight</h1>
+        <p class="page-subtitle">Learn, Reflect, and Understand.</p>
+        <p class="page-desc">Bacaan seputar pengenalan diri, emosi, dan pengembangan diri — dalam bahasa yang mudah dipahami.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="search-bar">
+          <input type="text" id="insight-search" placeholder="Cari artikel..." value="${escapeHtml(state.insightSearch)}">
+          <button class="search-icon-btn"><i data-feather="search"></i></button>
+        </div>
+        <div class="category-chips" id="insight-cats">
+          ${['Semua', ...new Set(ARTICLES.map(a => a.category))].map(c => `
+            <button class="cat-chip ${state.insightCategory === c ? 'active' : ''}" data-cat="${c}">${c}</button>
+          `).join('')}
+        </div>
+        <div id="article-list-container"></div>
+      </div>
+    </section>
+  `;
+}
+
+function renderArticleList() {
+  let arts = ARTICLES;
+  if (state.insightSearch) {
+    const q = state.insightSearch.toLowerCase();
+    arts = arts.filter(a => a.title.toLowerCase().includes(q) || a.excerpt.toLowerCase().includes(q) || a.category.toLowerCase().includes(q));
+  }
+  if (state.insightCategory !== 'Semua') {
+    arts = arts.filter(a => a.category === state.insightCategory);
+  }
+  if (arts.length === 0) {
+    return `<div class="empty-state"><span class="es-icon">🔍</span><p>Tidak ada artikel yang cocok dengan pencarianmu.</p></div>`;
+  }
+  return `
+    <div class="article-grid">
+      ${arts.map(a => `
+        <button class="article-card" data-article="${a.slug}">
+          <span class="ac-tag">${escapeHtml(a.category)}</span>
+          <h3>${escapeHtml(a.title)}</h3>
+          <p>${escapeHtml(a.excerpt)}</p>
+          <div class="ac-meta">
+            <span><i data-feather="clock"></i> ${a.readMin} menit baca</span>
+          </div>
+        </button>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderArticleDetail(a) {
+  return `
+    <div class="page-header" style="padding-bottom:1rem;">
+      <div class="container">
+        <div class="badge"><i data-feather="book-open"></i> Artikel</div>
+        <h1 class="page-title" style="font-size:clamp(1.8rem,4vw,2.8rem);max-width:800px;margin-left:auto;margin-right:auto;">${escapeHtml(a.title)}</h1>
+      </div>
+    </div>
+    <section class="section">
+      <div class="container">
+        <div class="article-detail">
+          <button class="btn btn-ghost" id="article-back-btn" style="margin-bottom:1rem;">
+            <i data-feather="arrow-left"></i> Kembali ke Daftar
+          </button>
+          <div class="article-detail-header">
+            <span class="article-detail-tag">${escapeHtml(a.category)}</span>
+            <div class="article-detail-meta">
+              <span><i data-feather="clock"></i> ${a.readMin} menit baca</span>
+            </div>
+          </div>
+          <div class="article-detail-body">
+            ${a.body}
+          </div>
+          <div class="article-reflection">
+            <h4><i data-feather="edit-3"></i> Pertanyaan Refleksi</h4>
+            <p>${escapeHtml(a.reflection)}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function afterInsight() {
+  if (state.currentArticle) {
+    $('#article-back-btn')?.addEventListener('click', () => {
+      state.currentArticle = null;
+      onRouteChange();
+    });
+    return;
+  }
+  const c = $('#article-list-container');
+  if (c) {
+    c.innerHTML = renderArticleList();
+    feather.replace();
+    bindInsightEvents();
+  }
+}
+
+function bindInsightEvents() {
+  $('#insight-search')?.addEventListener('input', (e) => {
+    state.insightSearch = e.target.value;
+    const c = $('#article-list-container');
+    c.innerHTML = renderArticleList();
+    feather.replace();
+    bindInsightEvents();
+    setTimeout(() => {
+      const s = $('#insight-search');
+      if (s) { s.focus(); s.setSelectionRange(s.value.length, s.value.length); }
+    }, 0);
+  });
+  $$('[data-cat]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      state.insightCategory = chip.dataset.cat;
+      $$('[data-cat]').forEach(c => c.classList.toggle('active', c === chip));
+      const c = $('#article-list-container');
+      c.innerHTML = renderArticleList();
+      feather.replace();
+      bindInsightEvents();
+    });
+  });
+  $$('[data-article]').forEach(card => {
+    card.addEventListener('click', () => {
+      state.currentArticle = card.dataset.article;
+      onRouteChange();
+    });
+  });
+}
+
+/* ============================================================
+   PAGE: ABOUT
+============================================================ */
+function renderAbout() {
+  return `
+    <div class="page-header">
+      <div class="container">
+        <div class="badge"><i data-feather="users"></i> Tentang Kami</div>
+        <h1 class="page-title">About Us</h1>
+        <p class="page-subtitle">The People Behind WHO AM I?</p>
+        <p class="page-desc">Platform digital edukatif yang dirancang untuk membantu individu mengenali diri, memahami emosi, mengeksplorasi potensi, dan mengembangkan diri.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="about-story">
+          <span class="as-icon">🌱</span>
+          <h3>Mengapa WHO AM I? Hadir?</h3>
+          <p>Setiap individu memiliki perjalanan, pengalaman, dan potensi yang berbeda. Namun, kesibukan sehari-hari sering membuat kita lupa untuk memahami diri sendiri. WHO AM I? hadir sebagai ruang digital yang mendorong individu untuk berhenti sejenak, mengenali apa yang dirasakan, memahami siapa dirinya, dan menemukan langkah kecil untuk terus berkembang.</p>
+        </div>
+
+        <div class="credits-card">
+          <div class="cc-head">
+            <div class="cc-logo"><i data-feather="award"></i></div>
+            <div>
+              <div class="cc-title">WHO AM I?</div>
+              <div class="cc-subtitle">Self Discovery and Personal Growth Platform</div>
+            </div>
+          </div>
+          <div class="credits-list">
+            <div class="credits-item"><div class="ci-label">Nama Proyek</div><div class="ci-value">WHO AM I?</div></div>
+            <div class="credits-item"><div class="ci-label">Tema</div><div class="ci-value">Self Discovery and Personal Growth Platform</div></div>
+            <div class="credits-item"><div class="ci-label">Mata Kuliah</div><div class="ci-value">Kurikulum dan Pembelajaran</div></div>
+            <div class="credits-item"><div class="ci-label">Dosen Pengampu</div><div class="ci-value">Dr. Hj. Linda Setiawati, M.Pd.</div></div>
+            <div class="credits-item"><div class="ci-label">Program Studi</div><div class="ci-value">Bimbingan dan Konseling</div></div>
+            <div class="credits-item"><div class="ci-label">Fakultas</div><div class="ci-value">Fakultas Ilmu Pendidikan</div></div>
+            <div class="credits-item"><div class="ci-label">Universitas</div><div class="ci-value">Universitas Pendidikan Indonesia</div></div>
+            <div class="credits-item"><div class="ci-label">Kelas</div><div class="ci-value">BK-3B</div></div>
+            <div class="credits-item"><div class="ci-label">Kelompok</div><div class="ci-value">3</div></div>
+          </div>
+        </div>
+
+        <div class="vm-grid">
+          <div class="vm-card vision">
+            <span class="vm-icon">🌟</span>
+            <h3>Visi Kami</h3>
+            <p>Menjadi ruang eksplorasi diri yang interaktif dan mudah diakses untuk mendukung kesadaran diri, pemahaman emosi, serta pengembangan potensi individu.</p>
+          </div>
+          <div class="vm-card mission">
+            <span class="vm-icon">🎯</span>
+            <h3>Misi Kami</h3>
+            <ol class="mission-list">
+              <li>Membantu individu mengenali karakteristik, kekuatan, dan potensi dirinya.</li>
+              <li>Menyediakan ruang refleksi untuk memahami emosi dan pengalaman pribadi.</li>
+              <li>Mendorong kebiasaan positif melalui jurnal dan tantangan pengembangan diri.</li>
+              <li>Menghadirkan pengalaman belajar tentang diri sendiri melalui aktivitas interaktif.</li>
+              <li>Meningkatkan kesadaran akan pentingnya pengembangan diri dalam kehidupan sehari-hari.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-bottom:1.5rem;">
+          <span class="section-label"><i data-feather="star"></i> Values</span>
+          <h2 class="section-title">Nilai yang Kami Pegang</h2>
+        </div>
+        <div class="values-grid">
+          <div class="value-card">
+            <span class="v-icon">🪞</span>
+            <h4>Self-Awareness</h4>
+            <p>Mengenali dan memahami diri sendiri.</p>
+          </div>
+          <div class="value-card">
+            <span class="v-icon">💗</span>
+            <h4>Self-Acceptance</h4>
+            <p>Menerima kelebihan dan kekurangan diri.</p>
+          </div>
+          <div class="value-card">
+            <span class="v-icon">🌿</span>
+            <h4>Growth</h4>
+            <p>Terus belajar dan berkembang.</p>
+          </div>
+          <div class="value-card">
+            <span class="v-icon">🤝</span>
+            <h4>Empathy</h4>
+            <p>Memahami perasaan dan pengalaman diri maupun orang lain.</p>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-bottom:1.5rem;">
+          <span class="section-label"><i data-feather="users"></i> Tim Pengembang</span>
+          <h2 class="section-title">Meet Our Team</h2>
+          <p class="section-desc">18 anggota Kelompok 3 BK-3B yang berkontribusi dalam pengembangan platform ini.</p>
+        </div>
+        <div class="team-grid">
+          ${TEAM.map(t => `
+            <div class="team-card">
+              <div class="team-avatar">${escapeHtml(getInitials(t.name))}</div>
+              <div class="team-name">${escapeHtml(t.name)}</div>
+              <div class="team-nim">NIM ${escapeHtml(t.nim)}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="about-closing">
+          <h3>Your Journey, Your Story.</h3>
+          <p>Memahami diri adalah proses yang terus berjalan. Tidak perlu terburu-buru menemukan semua jawaban. Mulailah dengan mengenali satu hal kecil tentang dirimu hari ini.</p>
+          <a href="#kenali-diri" class="btn btn-primary">
+            <i data-feather="compass"></i> Mulai Mengenal Diri
+          </a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+function afterAbout() {}
+
+/* ============================================================
+   THEME
+============================================================ */
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  storage.set('theme', theme);
+  const t = $('#theme-toggle');
+  if (t) {
+    t.innerHTML = theme === 'dark' ? '<i data-feather="sun"></i>' : '<i data-feather="moon"></i>';
+    feather.replace();
+  }
+}
+$('#theme-toggle').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+});
+
+/* ============================================================
+   MOBILE MENU + SCROLL
+============================================================ */
+const mobileMenu = $('#mobile-menu');
+$('#mobile-menu-btn').addEventListener('click', () => mobileMenu.classList.toggle('open'));
+$$('#mobile-menu a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+window.addEventListener('scroll', () => {
+  $('#navbar').classList.toggle('scrolled', window.scrollY > 50);
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  $('#scroll-progress').style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+});
+
+window.addEventListener('hashchange', onRouteChange);
+
+/* ============================================================
+   INIT
+============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme(storage.get('theme', 'light'));
+  migrateData();
+  feather.replace();
+  onRouteChange();
+});
+
+// Fallback if DOMContentLoaded already fired
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  applyTheme(storage.get('theme', 'light'));
+  migrateData();
+  feather.replace();
+  if (!document.querySelector('.page.active')) onRouteChange();
+}
+</script>
+</body>
+</html>
